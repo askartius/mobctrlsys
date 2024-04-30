@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import askartius.mobctrlsys.ui.HomeFragment;
+import askartius.mobctrlsys.ui.MotionFragment;
 
 public class PagerAdapter extends FragmentStateAdapter {
     private final List<Fragment> fragments = new ArrayList<>();
@@ -18,7 +19,7 @@ public class PagerAdapter extends FragmentStateAdapter {
         fragments.add(new HomeFragment());
         fragments.add(new HomeFragment());
         fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
+        fragments.add(new MotionFragment());
     }
 
     @NonNull
