@@ -7,7 +7,7 @@
     android:padding="24dp"
     tools:context=".ui.HomeFragment">
 
-    <androidx.constraintlayout.widget.Guideline
+    <!--<androidx.constraintlayout.widget.Guideline
         android:id="@+id/center_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -150,7 +150,5 @@
                     android:layout_marginStart="6dp"/>
             </LinearLayout>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-
+    </androidx.cardview.widget.CardView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

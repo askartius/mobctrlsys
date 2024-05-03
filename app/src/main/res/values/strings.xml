@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">MobCtrlSys</string>
-    <string name="title_current">Current</string>
-    <string name="title_voltage">Voltage</string>
-    <string name="title_home">Home</string>
-    <string name="title_graphs">Graphs</string>
-    <string name="title_motion">Motion</string>
-    <string name="title_process">Process</string>
+    <string name="current">Current</string>
+    <string name="voltage">Voltage</string>
+    <string name="home">Home</string>
+    <string name="graphs">Graphs</string>
+    <string name="motion">Motion</string>
+    <string name="process">Process</string>
     <string name="description_voltage">Bolt</string>
     <string name="description_current">Square wave</string>
+    <string name="up">Up</string>
+    <string name="down">Down</string>
+    <string name="connect">Connect</string>
+    <string name="z">Z</string>
 </resources>

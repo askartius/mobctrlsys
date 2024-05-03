@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
+    android:padding="6dp"
     tools:context=".ui.MotionFragment">
 
     <androidx.constraintlayout.widget.Guideline
@@ -14,41 +14,115 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_motion"
-        android:layout_margin="8dp"
+        android:layout_margin="6dp"
+        android:text="@string/motion"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:drawableTop="@drawable/ic_arrows_up_down_left_right"
-        android:drawableTint="@color/design_default_color_on_primary"
-        android:padding="16dp"
-        android:text="@string/down"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/move_up_button"
+        android:layout_margin="6dp"
+        app:cardCornerRadius="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/move_up_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:text="@string/z"
+                android:textSize="48sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:gravity="end"
+                android:textSize="48sp" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:orientation="vertical"
+        app:singleSelection="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/center_guideline"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="12dp"
+            android:text="x1"
+            android:textSize="24sp" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="12dp"
+            android:text="x10"
+            android:textSize="24sp" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="12dp"
+            android:text="x100"
+            android:textSize="24sp" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/move_up_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:drawableTop="@drawable/ic_arrows_up_down_left_right"
-        android:drawableTint="@color/design_default_color_on_primary"
-        android:padding="16dp"
+        android:layout_margin="6dp"
+        android:drawableTop="@drawable/ic_arrow_up"
+        android:padding="12dp"
         android:text="@string/up"
-        android:textSize="16sp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/move_down_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/move_down_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:drawableTop="@drawable/ic_arrow_down"
+        android:padding="12dp"
+        android:text="@string/down"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

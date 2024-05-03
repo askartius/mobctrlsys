@@ -18,7 +18,7 @@ public class PagerAdapter extends FragmentStateAdapter {
 
         fragments.add(new HomeFragment());
         fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
+//        fragments.add(new HomeFragment());
         fragments.add(new MotionFragment());
     }
 

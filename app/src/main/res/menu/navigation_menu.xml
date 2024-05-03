@@ -2,18 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home"
-        android:title="@string/title_home" />
-    <item
-        android:id="@+id/navigation_graphs"
-        android:icon="@drawable/ic_graph"
-        android:title="@string/title_graphs" />
+        android:icon="@drawable/ic_home_selector"
+        android:title="@string/home" />
     <item
         android:id="@+id/navigation_process"
-        android:icon="@drawable/ic_microchip"
-        android:title="@string/title_process" />
+        android:icon="@drawable/ic_code_circle_selector"
+        android:title="@string/process" />
     <item
         android:id="@+id/navigation_motion"
-        android:icon="@drawable/ic_arrows_up_down_left_right"
-        android:title="@string/title_motion" />
+        android:icon="@drawable/ic_arrows_move_vertical"
+        android:title="@string/motion" />
 </menu>
