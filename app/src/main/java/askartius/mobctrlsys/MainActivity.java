@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     protected OutputStream outputStream;
     protected InputStream inputStream;
+    private Socket socket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,40 +65,44 @@ public class MainActivity extends AppCompatActivity {
         connectToEsp(ESP_IP, ESP_PORT);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     protected void connectToEsp (String EspIp, int EspPort) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Socket socket = new Socket(EspIp, EspPort);
-                    outputStream = socket.getOutputStream();
-                    inputStream = socket.getInputStream();
+                Socket socket;
 
-                    /*DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                    String message = "Hello from MobCtrlSys!\r";
-                    dataOutputStream.writeUTF(message);
-                    dataOutputStream.flush();
-                    dataOutputStream.close();*/
+                while (!Thread.currentThread().isInterrupted()) {
+                    try {
+                        socket = new Socket(EspIp, EspPort);
+                        outputStream = socket.getOutputStream();
+                        inputStream = socket.getInputStream();
 
-                    String message = "Hello from MobCtrlSys!\r";
-                    outputStream.write(message.getBytes());
+                        String message = "Hello from MobCtrlSys!\r";
+                        outputStream.write(message.getBytes());
 
-                    byte[] buffer = new byte[1024];
-                    int bytesRead = inputStream.read(buffer);
-                    String response = new String(buffer, 0, bytesRead);
-                    Log.d("ESP-01", response);
+                        byte[] buffer = new byte[1024];
+                        int bytesRead = inputStream.read(buffer);
+                        String response = new String(buffer, 0, bytesRead);
+                        Log.d("ESP-01", response);
 
-                    outputStream.close();
-                    socket.close();
-                } catch (IOException e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(MainActivity.this, "Error connecting: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        outputStream.close();
+                        inputStream.close();
+                        socket.close();
+                    } catch (IOException e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, "Error connecting: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
             }
-        }).start();
+        });
     }
 }

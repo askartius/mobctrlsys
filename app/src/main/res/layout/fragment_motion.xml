@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/move_up_button"
+        app:layout_constraintBottom_toTopOf="@id/increase_z"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:selectionRequired="true"
@@ -104,7 +104,7 @@
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/move_up_button"
+        android:id="@+id/increase_z"
         style="?attr/materialButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -112,25 +112,25 @@
         android:padding="@dimen/button_padding"
         android:text="@string/increase_z"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/reset_position_button"
+        app:layout_constraintBottom_toTopOf="@id/jog_home"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/reset_position_button"
-        style="?attr/materialButtonStyle"
+        android:id="@+id/jog_home"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
         android:padding="@dimen/button_padding"
         android:text="Jog home"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/move_down_button"
+        app:layout_constraintBottom_toTopOf="@id/decrease_z"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/move_down_button"
+        android:id="@+id/decrease_z"
         style="?attr/materialButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
