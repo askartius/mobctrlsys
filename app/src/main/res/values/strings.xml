@@ -12,4 +12,10 @@
     <string name="down">Down</string>
     <string name="connect">Connect</string>
     <string name="z">Z</string>
+    <string name="reset">Reset</string>
+    <string name="x1">x1</string>
+    <string name="x10">x10</string>
+    <string name="x100">x100</string>
+    <string name="increase_z">+Z</string>
+    <string name="decrease_z">-Z</string>
 </resources>

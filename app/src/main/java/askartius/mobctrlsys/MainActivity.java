@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.pager.setAdapter(new PagerAdapter(this));
+        // TODO: Remove the swiping feature?
         binding.pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
