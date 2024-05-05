@@ -16,6 +16,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tab_title"
+        style="?attr/textAppearanceTitleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
@@ -27,6 +28,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
+        style="?attr/materialCardViewOutlinedStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
@@ -37,24 +39,54 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="@dimen/layout_padding">
 
             <com.google.android.material.textview.MaterialTextView
+                style="?attr/textAppearanceBodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start|top"
                 android:layout_margin="@dimen/element_margin"
                 android:text="@string/z"
                 android:textSize="48sp"
                 android:textStyle="bold" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/element_margin"
-                android:gravity="end"
-                android:textSize="48sp" />
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/z_position"
+                    style="?attr/textAppearanceBodyLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/element_margin"
+                    android:gravity="end"
+                    android:text="0.00"
+                    android:textSize="48sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/element_margin">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/target_z_position_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:hint="Target position"
+                        android:text="0.000"
+                        android:textAlignment="viewEnd"
+                        android:textSize="48sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -68,6 +100,7 @@
         app:layout_constraintBottom_toTopOf="@id/increase_z"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_max="320dp"
         app:selectionRequired="true"
         app:singleSelection="true">
 
@@ -114,7 +147,8 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@id/jog_home"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_max="320dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/jog_home"
@@ -127,7 +161,8 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@id/decrease_z"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_max="320dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/decrease_z"
@@ -140,6 +175,7 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_max="320dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

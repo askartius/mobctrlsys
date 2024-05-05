@@ -12,22 +12,21 @@ import android.widget.Toast;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.navigation.NavigationBarView;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
+import askartius.mobctrlsys.api.EspCommunication;
 import askartius.mobctrlsys.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EspCommunication {
     private final String ESP_IP = "192.168.3.22";
     private final int ESP_PORT = 80;
     private ActivityMainBinding binding;
-    protected OutputStream outputStream;
-    protected InputStream inputStream;
     private Socket socket;
+    protected PrintWriter printWriter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,41 +67,62 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        try {
+            if (socket != null) {
+                socket.close();
+            }
+            if (printWriter != null) {
+                printWriter.close();
+            }
+        } catch (IOException e) {
+            Log.e("SOCKET", "Error closing socket: " + e.getMessage());
+        }
     }
 
-    protected void connectToEsp (String EspIp, int EspPort) {
+    protected void connectToEsp(String EspIp, int EspPort) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Socket socket;
+                try {
+                    socket = new Socket(EspIp, EspPort);
 
-                while (!Thread.currentThread().isInterrupted()) {
-                    try {
-                        socket = new Socket(EspIp, EspPort);
-                        outputStream = socket.getOutputStream();
-                        inputStream = socket.getInputStream();
+                    printWriter = new PrintWriter(socket.getOutputStream());
 
-                        String message = "Hello from MobCtrlSys!\r";
-                        outputStream.write(message.getBytes());
+                    //outputStream = socket.getOutputStream();
+                    //inputStream = socket.getInputStream();
 
-                        byte[] buffer = new byte[1024];
-                        int bytesRead = inputStream.read(buffer);
-                        String response = new String(buffer, 0, bytesRead);
-                        Log.d("ESP-01", response);
+                    String message = "Hello from MobCtrlSys!\r";
+                    //outputStream.write(message.getBytes());
+                    printWriter.println(message);
 
-                        outputStream.close();
-                        inputStream.close();
-                        socket.close();
-                    } catch (IOException e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(MainActivity.this, "Error connecting: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                    /*byte[] buffer = new byte[1024];
+                    int bytesRead = inputStream.read(buffer);
+                    String response = new String(buffer, 0, bytesRead);
+                    Log.d("ESP-01", response);*/
+                } catch (IOException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "Error connecting: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
+    }
+
+    @Override
+    public void sendData(String data) {
+        if (printWriter != null) {
+            printWriter.println(data);
+        } else {
+            Toast.makeText(this, "Error sending", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void getData() {
+
     }
 }
