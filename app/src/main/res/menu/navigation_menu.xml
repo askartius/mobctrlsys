@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home"
-        android:title="@string/home" />
+        android:id="@+id/program_screen"
+        android:icon="@drawable/ic_code_dots"
+        android:title="@string/program" />
     <item
-        android:id="@+id/navigation_process"
-        android:icon="@drawable/ic_code_circle"
+        android:id="@+id/process_screen"
+        android:icon="@drawable/ic_process_adjustments"
         android:title="@string/process" />
     <item
-        android:id="@+id/navigation_motion"
+        android:id="@+id/motion_screen"
         android:icon="@drawable/ic_arrows_move_vertical"
         android:title="@string/motion" />
 </menu>

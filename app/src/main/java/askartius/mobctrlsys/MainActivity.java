@@ -9,17 +9,15 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.material.color.DynamicColors;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 import askartius.mobctrlsys.api.EspCommunication;
 import askartius.mobctrlsys.databinding.ActivityMainBinding;
+import askartius.mobctrlsys.ui.PagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements EspCommunication {
     private final String ESP_IP = "192.168.3.22";
@@ -32,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements EspCommunication 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DynamicColors.applyToActivityIfAvailable(this);
+        //DynamicColors.applyToActivityIfAvailable(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -40,11 +38,11 @@ public class MainActivity extends AppCompatActivity implements EspCommunication 
         binding.navigationBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.navigation_home) {
+                if (item.getItemId() == R.id.program_screen) {
                     binding.pager.setCurrentItem(0);
-                } else if (item.getItemId() == R.id.navigation_process) {
+                } else if (item.getItemId() == R.id.process_screen) {
                     binding.pager.setCurrentItem(1);
-                } else if (item.getItemId() == R.id.navigation_motion) {
+                } else if (item.getItemId() == R.id.motion_screen) {
                     binding.pager.setCurrentItem(2);
                 }
                 return false;

@@ -1,4 +1,4 @@
-package askartius.mobctrlsys;
+package askartius.mobctrlsys.ui;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,7 +18,6 @@ public class PagerAdapter extends FragmentStateAdapter {
 
         fragments.add(new HomeFragment());
         fragments.add(new HomeFragment());
-//        fragments.add(new HomeFragment());
         fragments.add(new MotionFragment());
     }
 
