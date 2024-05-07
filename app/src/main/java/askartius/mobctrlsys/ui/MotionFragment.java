@@ -33,6 +33,8 @@ public class MotionFragment extends Fragment {
     private TextInputEditText targetZPositionInput;
     private EspCommunication espCommunication;
 
+    private int speedMultiplier = 1;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -57,28 +59,34 @@ public class MotionFragment extends Fragment {
         // Select default speed multiplier
         speedMultiplierSelector.check(R.id.speed_x1);
 
-        increaseZ.setOnTouchListener(new View.OnTouchListener() {
-
-            private Handler handler = new Handler();
-            private Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    Log.d("MOTION", "Down");
-                    handler.postDelayed(this, 100);
-                }
-            };
-
+        speedMultiplierSelector.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        handler.postDelayed(runnable, 100);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        handler.removeCallbacks(runnable);
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+                if (isChecked) {
+                    if (checkedId == R.id.speed_x1) {
+                        speedMultiplier = 1;
+                    } else if (checkedId == R.id.speed_x10) {
+                        speedMultiplier = 10;
+                    } else if (checkedId == R.id.speed_x100) {
+                        speedMultiplier = 100;
+                    }
                 }
+            }
+        });
 
-                return true;
+        increaseZ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Add code to send data
+                espCommunication.sendData("G0 Z");
+            }
+        });
+
+        decreaseZ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Add code to send data
+                espCommunication.sendData("G0 Z");
             }
         });
 
@@ -97,7 +105,7 @@ public class MotionFragment extends Fragment {
                     targetZPositionInput.clearFocus();
 
                     // TODO: Add code to send data
-                    espCommunication.sendData("G0 Z0");
+                    espCommunication.sendData("G0 Z" + targetZPositionInput.getText());
                     Toast.makeText(getActivity(), "Jogging to " + targetZPositionInput.getText(), Toast.LENGTH_SHORT).show();
 
                     // Hide keyboard

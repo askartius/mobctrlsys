@@ -21,14 +21,15 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
         android:text="@string/motion"
-        android:textSize="24sp"
+        android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/position_display"/>
 
-    <com.google.android.material.card.MaterialCardView
-        style="?attr/materialCardViewOutlinedStyle"
+    <com.google.android.material.card.MaterialCardView style="?attr/materialCardViewOutlinedStyle"
+        android:id="@+id/position_display"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
