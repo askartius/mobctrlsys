@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/layout_padding"
     tools:context=".ui.ProcessFragment">
 
     <androidx.constraintlayout.widget.Guideline
@@ -125,17 +126,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/element_margin"
-                app:suffixText="V"
-                app:suffixTextAppearance="@style/RegularText"
                 android:hint="Voltage gap"
-                app:hintTextAppearance="@style/LabelText">
+                app:hintTextAppearance="@style/LabelText"
+                app:suffixText="V"
+                app:suffixTextAppearance="@style/RegularText">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:textAlignment="viewEnd"
                     android:text="0"
+                    android:textAlignment="viewEnd"
                     android:textAppearance="@style/RegularText" />
             </com.google.android.material.textfield.TextInputLayout>
 

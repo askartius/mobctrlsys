@@ -5,6 +5,10 @@
         android:icon="@drawable/ic_code_dots"
         android:title="@string/program" />
     <item
+        android:id="@+id/terminal_screen"
+        android:icon="@drawable/terminal"
+        android:title="@string/terminal" />
+    <item
         android:id="@+id/process_screen"
         android:icon="@drawable/ic_process_adjustments"
         android:title="@string/process" />

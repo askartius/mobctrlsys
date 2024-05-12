@@ -10,8 +10,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.textview.MaterialTextView;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -25,12 +28,11 @@ public class MainActivity extends AppCompatActivity implements EspCommunication 
     private ActivityMainBinding binding;
     private Socket socket;
     protected PrintWriter printWriter;
+    protected BufferedReader bufferedReader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //DynamicColors.applyToActivityIfAvailable(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements EspCommunication 
         binding.navigationBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.program_screen) {
+                if (item.getItemId() == R.id.terminal_screen) {
                     binding.pager.setCurrentItem(0);
                 } else if (item.getItemId() == R.id.process_screen) {
                     binding.pager.setCurrentItem(1);
@@ -85,18 +87,23 @@ public class MainActivity extends AppCompatActivity implements EspCommunication 
                     socket = new Socket(EspIp, EspPort);
 
                     printWriter = new PrintWriter(socket.getOutputStream());
+                    bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-                    //outputStream = socket.getOutputStream();
-                    //inputStream = socket.getInputStream();
+                    MaterialTextView terminalDisplay = findViewById(R.id.terminal_display);
 
-                    String message = "Hello from MobCtrlSys!\r";
-                    //outputStream.write(message.getBytes());
-                    printWriter.println(message);
+                    String data;
+                    while ((data = bufferedReader.readLine()) != null) {
+                        if (data.charAt(0) == '*') {
+                            String finalData = data;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(MainActivity.this, finalData, Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-                    /*byte[] buffer = new byte[1024];
-                    int bytesRead = inputStream.read(buffer);
-                    String response = new String(buffer, 0, bytesRead);
-                    Log.d("ESP-01", response);*/
+                        }
+                    }
                 } catch (IOException e) {
                     runOnUiThread(new Runnable() {
                         @Override
@@ -106,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements EspCommunication 
                     });
                 }
             }
-        });
+        }).start();
     }
 
     @Override
@@ -120,6 +127,5 @@ public class MainActivity extends AppCompatActivity implements EspCommunication 
 
     @Override
     public void getData() {
-
     }
 }

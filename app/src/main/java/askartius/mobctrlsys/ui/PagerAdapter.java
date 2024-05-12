@@ -16,7 +16,7 @@ public class PagerAdapter extends FragmentStateAdapter {
     public PagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
 
-        fragments.add(new ProgramFragment());
+        fragments.add(new TerminalFragment());
         fragments.add(new ProcessFragment());
         fragments.add(new MotionFragment());
     }
