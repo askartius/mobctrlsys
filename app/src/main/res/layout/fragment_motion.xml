@@ -23,13 +23,14 @@
         android:text="@string/motion"
         android:textSize="48sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/position_display"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/position_display"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.card.MaterialCardView style="?attr/materialCardViewOutlinedStyle"
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/position_display"
+        style="?attr/materialCardViewOutlinedStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
@@ -48,7 +49,6 @@
                 style="?attr/textAppearanceBodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|top"
                 android:layout_margin="@dimen/element_margin"
                 android:text="@string/z"
                 android:textSize="48sp"
@@ -66,8 +66,8 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/z_position"
-                    style="?attr/textAppearanceBodyLarge"
+                    android:id="@+id/z_position_display"
+                    style="@style/RegularText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/element_margin"
@@ -90,7 +90,6 @@
                         android:hint="@string/target_position"
                         android:inputType="numberDecimal"
                         android:text="@string/zero_position"
-                        android:textAlignment="viewEnd"
                         android:textSize="24sp" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -105,7 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/increase_z"
+        app:layout_constraintBottom_toTopOf="@id/z_increase_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:selectionRequired="true"
@@ -144,7 +143,7 @@
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/increase_z"
+        android:id="@+id/z_increase_button"
         style="?attr/materialButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -152,12 +151,12 @@
         android:padding="@dimen/button_padding"
         android:text="@string/increase_z"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/jog_home"
+        app:layout_constraintBottom_toTopOf="@id/jog_home_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/jog_home"
+        android:id="@+id/jog_home_button"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -165,12 +164,12 @@
         android:padding="@dimen/button_padding"
         android:text="@string/jog_home"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/decrease_z"
+        app:layout_constraintBottom_toTopOf="@id/z_decrease_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/decrease_z"
+        android:id="@+id/z_decrease_button"
         style="?attr/materialButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

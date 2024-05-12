@@ -6,11 +6,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -27,9 +25,9 @@ import askartius.mobctrlsys.api.EspCommunication;
 
 public class MotionFragment extends Fragment {
     private MaterialButtonToggleGroup speedMultiplierSelector;
-    private MaterialButton increaseZ;
-    private MaterialButton decreaseZ;
-    private MaterialButton jogHome;
+    private MaterialButton zIncreaseButton;
+    private MaterialButton zDecreaseButton;
+    private MaterialButton jogHomeButton;
     private TextInputEditText targetZPositionInput;
     private EspCommunication espCommunication;
 
@@ -51,9 +49,9 @@ public class MotionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_motion, container, false);
 
         speedMultiplierSelector = view.findViewById(R.id.speed_multiplier_selector);
-        increaseZ = view.findViewById(R.id.increase_z);
-        decreaseZ = view.findViewById(R.id.decrease_z);
-        jogHome = view.findViewById(R.id.jog_home);
+        zIncreaseButton = view.findViewById(R.id.z_increase_button);
+        zDecreaseButton = view.findViewById(R.id.z_decrease_button);
+        jogHomeButton = view.findViewById(R.id.jog_home_button);
         targetZPositionInput = view.findViewById(R.id.target_z_position_input);
 
         // Select default speed multiplier
@@ -74,7 +72,7 @@ public class MotionFragment extends Fragment {
             }
         });
 
-        increaseZ.setOnClickListener(new View.OnClickListener() {
+        zIncreaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: Add code to send data
@@ -82,7 +80,7 @@ public class MotionFragment extends Fragment {
             }
         });
 
-        decreaseZ.setOnClickListener(new View.OnClickListener() {
+        zDecreaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: Add code to send data
@@ -90,7 +88,7 @@ public class MotionFragment extends Fragment {
             }
         });
 
-        jogHome.setOnClickListener(new View.OnClickListener() {
+        jogHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 espCommunication.sendData("G28");
