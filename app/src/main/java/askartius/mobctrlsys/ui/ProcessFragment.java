@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,24 +16,24 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import askartius.mobctrlsys.R;
+import askartius.mobctrlsys.api.EspComms;
+import askartius.mobctrlsys.api.EspCommsViewModel;
 import askartius.mobctrlsys.api.EspCommunication;
 
 public class ProcessFragment extends Fragment {
-    private EspCommunication communication;
 
     private MaterialButton applyButton;
     private TextInputEditText pulseTimeInput;
     private TextInputEditText pauseTimeInput;
+    private EspComms espComms;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if (context instanceof EspCommunication) {
-            communication = (EspCommunication) context;
-        } else {
-            Log.e("API", "No EspCommunication");
-        }
+        // Get espComms from ViewModel
+        EspCommsViewModel viewModel = new ViewModelProvider(requireActivity()).get(EspCommsViewModel.class);
+        espComms = viewModel.getSelectedEspComms().getValue();
     }
 
     @Override
@@ -44,17 +45,18 @@ public class ProcessFragment extends Fragment {
         pulseTimeInput = view.findViewById(R.id.pulse_time_input);
         pauseTimeInput = view.findViewById(R.id.pause_time_input);
 
-        applyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (communication != null) {
-                    // TODO: Add a code to check for errors in inputs
-                    communication.sendData("P\n" + pulseTimeInput.getText() + "\n" + pauseTimeInput.getText() + "\r\n");
-                    view.findFocus().clearFocus();
-                }
-            }
-        });
+        applyButton.setOnClickListener(v -> espComms.sendParameters(
+                Integer.parseInt(String.valueOf(pulseTimeInput.getText())),
+                Integer.parseInt(String.valueOf(pauseTimeInput.getText()))
+        ));
 
         return view;
+    }
+
+    public void updateParameters(int pulseTime, int pauseTime) {
+        if (pauseTimeInput != null) {
+            pulseTimeInput.setText(String.format("%s", pulseTime));
+            pauseTimeInput.setText(String.format("%s", pauseTime));
+        }
     }
 }

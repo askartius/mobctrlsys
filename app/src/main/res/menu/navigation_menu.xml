@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/program_screen"
-        android:icon="@drawable/ic_code_dots"
-        android:title="@string/program" />
-    <item
         android:id="@+id/terminal_screen"
         android:icon="@drawable/terminal"
         android:title="@string/terminal" />
