@@ -18,7 +18,7 @@
     <string name="x100">x100</string>
     <string name="increase_z">+Z</string>
     <string name="decrease_z">-Z</string>
-    <string name="zero_position">0.000</string>
+    <string name="zero_decimal">0.0</string>
     <string name="target_position">Target position</string>
     <string name="jog_home">Jog home</string>
     <string name="pulse_time">Pulse time</string>

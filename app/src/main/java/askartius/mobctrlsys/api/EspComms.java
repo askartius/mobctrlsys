@@ -112,7 +112,11 @@ public class EspComms {
     }
 
     public void sendData(String data) {
-        new Thread(() -> printWriter.println('*' + data)).start();
+        if (printWriter != null) {
+            new Thread(() -> printWriter.println('*' + data)).start();
+        } else {
+            makeToast("Error sending data");
+        }
     }
 
     // TODO: Change all parameters to Strings?

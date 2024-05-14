@@ -10,7 +10,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tab_title"
-        style="@style/TextAppearance.Material3.TitleLarge"
+        style="@style/TextAppearance.Material3.HeadlineLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
@@ -34,8 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/element_margin"
-                android:gravity="bottom|start"
-                android:text="Terminal started" />
+                android:gravity="bottom|start" />
 
         </FrameLayout>
     </com.google.android.material.card.MaterialCardView>

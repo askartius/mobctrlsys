@@ -31,11 +31,11 @@ public class MainActivity extends AppCompatActivity {
         viewModel.selectEspComms(espComms);
 
         binding.navigationBar.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.terminal_screen) {
+            if (item.getItemId() == R.id.terminal) {
                 binding.pager.setCurrentItem(0);
-            } else if (item.getItemId() == R.id.process_screen) {
+            } else if (item.getItemId() == R.id.process) {
                 binding.pager.setCurrentItem(1);
-            } else if (item.getItemId() == R.id.motion_screen) {
+            } else if (item.getItemId() == R.id.motion) {
                 binding.pager.setCurrentItem(2);
             }
             return false;

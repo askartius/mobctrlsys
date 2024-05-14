@@ -18,6 +18,8 @@ import askartius.mobctrlsys.R;
 import askartius.mobctrlsys.api.EspComms;
 import askartius.mobctrlsys.api.EspCommsViewModel;
 
+// TODO: Add button to connect to the ESP
+
 public class TerminalFragment extends Fragment {
     private MaterialTextView terminalDisplay;
     private EspComms espComms;
