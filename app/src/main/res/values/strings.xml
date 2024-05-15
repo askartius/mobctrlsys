@@ -33,4 +33,8 @@
     <string name="zero_milliseconds">0 ms</string>
     <string name="start_the_process">Start the process</string>
     <string name="stop_the_process">Stop the process</string>
+    <string name="process_state">Process state</string>
+    <string name="unknown">Unknown</string>
+    <string name="stopped">Stopped</string>
+    <string name="running">Running</string>
 </resources>

@@ -76,10 +76,22 @@ public class EspComms {
                             updateTerminal("-> " + data.substring(3));
                             break;
 
+                        case 'A': // Process stopped
+                            activity.runOnUiThread(() -> processFragment.updateProcessState(false));
+                            updateTerminal("-> Process stopped");
+                            break;
+
+                        case 'Z': // Process started
+                            activity.runOnUiThread(() -> processFragment.updateProcessState(true));
+                            updateTerminal("-> Process started");
+                            break;
+
                         case 'P': // Parameters
                             String[] parametersData = data.substring(3).split(" ");
                             activity.runOnUiThread(() -> processFragment.updateParameters(Integer.parseInt(parametersData[0]), Integer.parseInt(parametersData[1])));
-                            updateTerminal(String.format("-> Current parameters:\n    - Pulse: %s ms\n    - Pause: %s ms", parametersData[0], parametersData[1]));
+                            updateTerminal("-> Current parameters:" +
+                                    "\n    - Pulse: " + parametersData[0] + " ms" +
+                                    "\n    - Pause: " + parametersData[1] + " ms");
                             break;
 
                         case 'J': // Motion
@@ -119,13 +131,25 @@ public class EspComms {
     }
 
     public void sendParameters(int pulseLength, int pauseLength) {
-        updateTerminal(String.format("<- Set parameters:\n    - Pulse: %s ms\n    - Pause: %s ms", pulseLength, pauseLength));
+        updateTerminal("<- Set parameters:" +
+                "\n    - Pulse: " + pulseLength + " ms" +
+                "\n    - Pause: " + pauseLength + " ms");
         sendData("P " + pulseLength + " " + pauseLength);
     }
 
     public void sendTargetPosition(float targetPosition, int speedMultiplier) {
-        updateTerminal(String.format("<- Jog to %s", targetPosition));
+        updateTerminal("<- Jog to " + targetPosition);
         sendData("J " + targetPosition + " " + speedMultiplier);
+    }
+
+    public void startProcess() {
+        updateTerminal("<- Start the process");
+        sendData("Z");
+    }
+
+    public void stopProcess() {
+        updateTerminal("<- Stop the process");
+        sendData("A");
     }
 
     public void makeToast(String message) {

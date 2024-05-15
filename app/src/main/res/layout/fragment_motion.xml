@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/position_display"
+        android:id="@+id/position_card"
         style="?attr/materialCardViewOutlinedStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             android:layout_weight="1"
             android:padding="@dimen/button_padding"
             android:text="@string/x1"
-            android:textSize="@dimen/small_text_size" />
+            android:textSize="@dimen/text_size_small" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/speed_x10"
@@ -89,7 +89,7 @@
             android:layout_weight="1"
             android:padding="@dimen/button_padding"
             android:text="@string/x10"
-            android:textSize="@dimen/small_text_size" />
+            android:textSize="@dimen/text_size_small" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/speed_x100"
@@ -99,7 +99,7 @@
             android:layout_weight="1"
             android:padding="@dimen/button_padding"
             android:text="@string/x100"
-            android:textSize="@dimen/small_text_size" />
+            android:textSize="@dimen/text_size_small" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -111,7 +111,7 @@
         android:layout_margin="@dimen/element_margin"
         android:padding="@dimen/button_padding"
         android:text="@string/jog_home"
-        android:textSize="@dimen/small_text_size"
+        android:textSize="@dimen/text_size_small"
         app:layout_constraintBottom_toTopOf="@id/z_increase_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

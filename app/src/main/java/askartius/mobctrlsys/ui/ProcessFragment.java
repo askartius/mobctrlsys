@@ -1,6 +1,7 @@
 package askartius.mobctrlsys.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,10 +28,14 @@ import askartius.mobctrlsys.api.EspCommsViewModel;
 public class ProcessFragment extends Fragment {
     private MaterialTextView pulseTimeDisplay;
     private MaterialTextView pauseTimeDisplay;
+    private MaterialTextView processStateDisplay;
+    private MaterialButton startProcessButton;
+    private MaterialButton stopProcessButton;
     private EspComms espComms;
 
     private int pulseTime;
     private int pauseTime;
+    private boolean isRunning;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -48,60 +53,61 @@ public class ProcessFragment extends Fragment {
 
         pulseTimeDisplay = view.findViewById(R.id.pulse_time_display);
         pauseTimeDisplay = view.findViewById(R.id.pause_time_display);
+        processStateDisplay = view.findViewById(R.id.process_state_display);
+        startProcessButton = view.findViewById(R.id.start_process_button);
+        stopProcessButton = view.findViewById(R.id.stop_process_button);
 
-        pulseTimeDisplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);
-                TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
-                TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
+        pulseTimeDisplay.setOnClickListener(v -> {
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);
+            TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
+            TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
-                dataInputLayout.setSuffixText("ms");
+            dataInputLayout.setSuffixText("ms");
 
-                new MaterialAlertDialogBuilder(requireActivity())
-                        .setTitle("Pulse time")
-                        .setView(dialogView)
-                        .setPositiveButton("Set", (dialog, which) -> {
-                            if (String.valueOf(dataInput.getText()).isEmpty()) {
-                                Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
-                            } else {
-                                pulseTimeDisplay.setText(String.valueOf(Integer.parseInt(String.valueOf(dataInput.getText()))).concat(" ms"));
-                                pulseTime = Integer.parseInt(String.valueOf(dataInput.getText()));
-                                espComms.sendParameters(pulseTime, pauseTime);
-                            }
-                        })
-                        .setNegativeButton("Cancel", (dialog, which) -> {
-                        })
-                        .show();
-            }
+            new MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle("Pulse time")
+                    .setView(dialogView)
+                    .setPositiveButton("Set", (dialog, which) -> {
+                        if (String.valueOf(dataInput.getText()).isEmpty()) {
+                            Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
+                        } else {
+                            pulseTimeDisplay.setText(String.valueOf(Integer.parseInt(String.valueOf(dataInput.getText()))).concat(" ms"));
+                            pulseTime = Integer.parseInt(String.valueOf(dataInput.getText()));
+                            espComms.sendParameters(pulseTime, pauseTime);
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    })
+                    .show();
         });
 
-        pauseTimeDisplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);
-                TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
-                TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
+        pauseTimeDisplay.setOnClickListener(v -> {
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);
+            TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
+            TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
-                dataInputLayout.setSuffixText("ms");
+            dataInputLayout.setSuffixText("ms");
 
-                new MaterialAlertDialogBuilder(requireActivity())
-                        .setTitle("Pause time")
-                        .setView(dialogView)
-                        .setPositiveButton("Set", (dialog, which) -> {
-                            if (String.valueOf(dataInput.getText()).isEmpty()) {
-                                Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
-                            } else {
-                                pauseTimeDisplay.setText(String.valueOf(Integer.parseInt(String.valueOf(dataInput.getText()))).concat(" ms"));
-                                pauseTime = Integer.parseInt(String.valueOf(dataInput.getText()));
-                                espComms.sendParameters(pulseTime, pauseTime);
-                            }
-                        })
-                        .setNegativeButton("Cancel", (dialog, which) -> {
-                        })
-                        .show();
-            }
+            new MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle("Pause time")
+                    .setView(dialogView)
+                    .setPositiveButton("Set", (dialog, which) -> {
+                        if (String.valueOf(dataInput.getText()).isEmpty()) {
+                            Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
+                        } else {
+                            pauseTimeDisplay.setText(String.valueOf(Integer.parseInt(String.valueOf(dataInput.getText()))).concat(" ms"));
+                            pauseTime = Integer.parseInt(String.valueOf(dataInput.getText()));
+                            espComms.sendParameters(pulseTime, pauseTime);
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    })
+                    .show();
         });
+
+        startProcessButton.setOnClickListener(v -> espComms.startProcess());
+
+        stopProcessButton.setOnClickListener(v -> espComms.stopProcess());
 
         return view;
     }
@@ -112,6 +118,19 @@ public class ProcessFragment extends Fragment {
         if (pauseTimeDisplay != null) {
             pulseTimeDisplay.setText(String.valueOf(pulseTime));
             pauseTimeDisplay.setText(String.valueOf(pauseTime));
+        }
+    }
+
+    public void updateProcessState(boolean isRunning) {
+        this.isRunning = isRunning;
+        if (processStateDisplay != null) {
+            if (isRunning) {
+                processStateDisplay.setText(R.string.running);
+                processStateDisplay.setTextColor(Color.GREEN);
+            } else {
+                processStateDisplay.setText(R.string.stopped);
+                processStateDisplay.setTextColor(Color.RED);
+            }
         }
     }
 }
