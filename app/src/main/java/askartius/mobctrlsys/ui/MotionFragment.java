@@ -1,9 +1,7 @@
 package askartius.mobctrlsys.ui;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,14 +11,11 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.dialog.MaterialDialogs;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
@@ -88,21 +83,20 @@ public class MotionFragment extends Fragment {
         });
 
         jogToButton.setOnClickListener(v -> {
-            View dialogView = getLayoutInflater().inflate(R.layout.dialog_target_position, null);
-            TextInputLayout zPositionInputLayout = dialogView.findViewById(R.id.z_position_input_layout);
-            TextInputEditText zPositionInput = dialogView.findViewById(R.id.z_position_input);
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);
+            TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
+            TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
-            // Display current position as a reference
-            zPositionInputLayout.setPlaceholderText(String.format("%s", zPosition));
+            dataInputLayout.setPlaceholderText(String.format("%s", zPosition)); // Display current value as a reference
 
             new MaterialAlertDialogBuilder(requireActivity())
-                    .setTitle("Set target position")
+                    .setTitle("Target position")
                     .setView(dialogView)
                     .setPositiveButton("Jog", (dialog, which) -> {
-                        if (String.valueOf(zPositionInput.getText()).isEmpty()) {
-                            Toast.makeText(getActivity(), "Error: empty coordinate(s)", Toast.LENGTH_SHORT).show();
+                        if (String.valueOf(dataInput.getText()).isEmpty()) {
+                            Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
                         } else {
-                            espComms.sendTargetPosition(Float.parseFloat(Objects.requireNonNull(zPositionInput.getText()).toString()), speedMultiplier); // Parsing to float to remove unnecessary characters
+                            espComms.sendTargetPosition(Float.parseFloat(String.valueOf(dataInput.getText())), speedMultiplier); // Parsing to float to remove unnecessary characters
                         }
                     })
                     .setNegativeButton("Cancel", (dialog, which) -> {

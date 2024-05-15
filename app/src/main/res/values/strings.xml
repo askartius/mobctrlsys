@@ -29,4 +29,8 @@
     <string name="pulse_time_hint">Input pulse time in milliseconds</string>
     <string name="terminal">Terminal</string>
     <string name="jog_to">Jog to</string>
+    <string name="ms">ms</string>
+    <string name="zero_milliseconds">0 ms</string>
+    <string name="start_the_process">Start the process</string>
+    <string name="stop_the_process">Stop the process</string>
 </resources>

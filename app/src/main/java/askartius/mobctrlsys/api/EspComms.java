@@ -34,7 +34,7 @@ import askartius.mobctrlsys.ui.TerminalFragment;
             0 - receive
             1 - send
             2 - applied
-        M - motion
+        J - jog to
         * - message
 
     Author: Askar Idrisov
@@ -47,6 +47,7 @@ public class EspComms {
     private BufferedReader bufferedReader;
 
     private String terminalData = "";
+    private TerminalFragment terminalFragment;
 
     public EspComms(MainActivity activity) {
         this.activity = activity;
@@ -55,7 +56,7 @@ public class EspComms {
     public void connectToEsp(String EspIp, int EspPort) {
         // Get fragments to update their data
         List<Fragment> fragments = activity.getPagerAdapter().getFragments();
-        TerminalFragment terminalFragment = (TerminalFragment) fragments.get(0);
+        terminalFragment = (TerminalFragment) fragments.get(0);
         ProcessFragment processFragment = (ProcessFragment) fragments.get(1);
         MotionFragment motionFragment = (MotionFragment) fragments.get(2);
 
@@ -72,24 +73,20 @@ public class EspComms {
                     switch (data.charAt(1)) {
                         case '*': // Messages
                             makeToast(data.substring(3));
+                            updateTerminal("-> " + data.substring(3));
                             break;
 
                         case 'P': // Parameters
-                            // List<String> parametersData = new ArrayList<>();
                             String[] parametersData = data.substring(3).split(" ");
                             activity.runOnUiThread(() -> processFragment.updateParameters(Integer.parseInt(parametersData[0]), Integer.parseInt(parametersData[1])));
+                            updateTerminal(String.format("-> Current parameters:\n    - Pulse: %s ms\n    - Pause: %s ms", parametersData[0], parametersData[1]));
                             break;
 
-                        case 'M': // Motion
+                        case 'J': // Motion
                             String motionData = data.substring(3);
                             activity.runOnUiThread(() -> motionFragment.updatePosition(Float.parseFloat(motionData)));
                             break;
                     }
-
-                    // Update the terminal
-                    // TODO: maybe remove the terminalData?
-                    terminalData = terminalData.concat(data.substring(1) + '\n');
-                    activity.runOnUiThread(() -> terminalFragment.updateTerminal(terminalData));
                 }
             } catch (IOException e) {
                 makeToast("Error connecting: " + e.getMessage());
@@ -113,20 +110,31 @@ public class EspComms {
     public void sendData(String data) {
         if (printWriter == null) {
             makeToast("Error sending data");
+            updateTerminal("-> Error: no connection available!");
         } else {
-            new Thread(() -> printWriter.println('*' + data)).start();
+            new Thread(() -> {
+                printWriter.println('*' + data);
+            }).start();
         }
     }
 
     public void sendParameters(int pulseLength, int pauseLength) {
+        updateTerminal(String.format("<- Set parameters:\n    - Pulse: %s ms\n    - Pause: %s ms", pulseLength, pauseLength));
         sendData("P " + pulseLength + " " + pauseLength);
     }
 
     public void sendTargetPosition(float targetPosition, int speedMultiplier) {
-        sendData("M " + targetPosition + " " + speedMultiplier);
+        updateTerminal(String.format("<- Jog to %s", targetPosition));
+        sendData("J " + targetPosition + " " + speedMultiplier);
     }
 
     public void makeToast(String message) {
         activity.runOnUiThread(() -> Toast.makeText(activity, message, Toast.LENGTH_SHORT).show());
+    }
+
+    public void updateTerminal(String data) {
+        terminalData += '\n' + data;
+
+        activity.runOnUiThread(() -> terminalFragment.updateTerminal(terminalData));
     }
 }

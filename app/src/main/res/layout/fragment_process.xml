@@ -9,11 +9,12 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tab_title"
-        style="@style/TextAppearance.Material3.HeadlineLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
         android:text="@string/process"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
         app:cardCornerRadius="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/start_process_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -36,58 +37,85 @@
             android:orientation="vertical"
             android:padding="@dimen/layout_padding">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/element_margin"
-                app:placeholderText="@string/zero_value"
-                android:hint="@string/pulse_time"
-                app:hintTextAppearance="@style/TextAppearance.Material3.LabelLarge"
-                app:suffixText="ms"
-                app:suffixTextAppearance="@style/TextAppearance.Material3.TitleLarge">
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pulse_time_input"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
+                    android:layout_margin="@dimen/element_margin"
+                    android:layout_gravity="center"
+                    android:text="@string/pulse_time"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pulse_time_display"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/element_margin"
+                    android:layout_weight="1"
                     android:gravity="end"
-                    android:textAlignment="viewEnd"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="@string/zero_milliseconds"
+                    android:textSize="@dimen/text_size_medium" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/element_margin"
-                android:hint="@string/pause_time"
-                app:hintTextAppearance="@style/TextAppearance.Material3.LabelLarge"
-                app:suffixText="ms"
-                app:suffixTextAppearance="@style/TextAppearance.Material3.TitleLarge">
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pause_time_input"
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/element_margin"
+                    android:layout_gravity="center"
+                    android:text="@string/pause_time"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pause_time_display"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textAlignment="viewEnd"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_margin="@dimen/element_margin"
+                    android:gravity="end"
+                    android:text="@string/zero_milliseconds"
+                    android:textSize="@dimen/text_size_medium" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/apply_button"
-                style="@style/Widget.Material3.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/element_margin"
-                android:padding="@dimen/button_padding"
-                android:text="@string/apply"
-                android:textSize="@dimen/medium_text_size" />
+            </LinearLayout>
 
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/start_process_button"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/element_margin"
+        android:padding="@dimen/button_padding_large"
+        android:text="@string/start_the_process"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintBottom_toTopOf="@id/stop_process_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/stop_process_button"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/element_margin"
+        android:padding="@dimen/button_padding_large"
+        android:text="@string/stop_the_process"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

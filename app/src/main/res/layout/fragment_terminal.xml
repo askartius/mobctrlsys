@@ -9,11 +9,12 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tab_title"
-        style="@style/TextAppearance.Material3.HeadlineLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
         android:text="@string/terminal"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,11 +36,11 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/terminal_display"
-                style="@style/TextAppearance.Material3.BodyLarge"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/element_margin"
-                android:gravity="bottom|start" />
+                android:gravity="bottom|start"
+                android:textSize="@dimen/small_text_size" />
 
         </FrameLayout>
     </com.google.android.material.card.MaterialCardView>
