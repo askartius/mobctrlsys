@@ -1,27 +1,28 @@
 package askartius.mobctrlsys.ui;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.dialog.MaterialDialogs;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.Objects;
@@ -29,15 +30,9 @@ import java.util.Objects;
 import askartius.mobctrlsys.R;
 import askartius.mobctrlsys.api.EspComms;
 import askartius.mobctrlsys.api.EspCommsViewModel;
-import askartius.mobctrlsys.api.EspCommunication;
 
 public class MotionFragment extends Fragment {
-    private MaterialButtonToggleGroup speedMultiplierSelector;
-    private MaterialButton zIncreaseButton;
-    private MaterialButton zDecreaseButton;
-    private MaterialButton jogHomeButton;
     private MaterialTextView zPositionDisplay;
-    private TextInputEditText targetZPositionInput;
     private EspComms espComms;
 
     private int speedMultiplier = 1;
@@ -58,12 +53,12 @@ public class MotionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_motion, container, false);
 
-        speedMultiplierSelector = view.findViewById(R.id.speed_multiplier_selector);
-        zIncreaseButton = view.findViewById(R.id.z_increase_button);
-        zDecreaseButton = view.findViewById(R.id.z_decrease_button);
-        jogHomeButton = view.findViewById(R.id.jog_home_button);
+        MaterialButtonToggleGroup speedMultiplierSelector = view.findViewById(R.id.speed_multiplier_selector);
+        MaterialButton zIncreaseButton = view.findViewById(R.id.z_increase_button);
+        MaterialButton zDecreaseButton = view.findViewById(R.id.z_decrease_button);
+        MaterialButton jogHomeButton = view.findViewById(R.id.jog_home_button);
+        MaterialButton jogToButton = view.findViewById(R.id.jog_to_button);
         zPositionDisplay = view.findViewById(R.id.z_position_display);
-        targetZPositionInput = view.findViewById(R.id.target_z_position_input);
 
         // Select default speed multiplier
         speedMultiplierSelector.check(R.id.speed_x1);
@@ -82,34 +77,37 @@ public class MotionFragment extends Fragment {
 
         zIncreaseButton.setOnClickListener(v -> {
             espComms.sendTargetPosition(zPosition + zChangeStep * speedMultiplier, speedMultiplier);
-            targetZPositionInput.setText(Float.toString(zPosition + zChangeStep * speedMultiplier));
         });
 
         zDecreaseButton.setOnClickListener(v -> {
             espComms.sendTargetPosition(zPosition - zChangeStep * speedMultiplier, speedMultiplier);
-            targetZPositionInput.setText(Float.toString(zPosition - zChangeStep * speedMultiplier));
         });
 
         jogHomeButton.setOnClickListener(v -> {
             espComms.sendTargetPosition(0.0F, speedMultiplier);
-            targetZPositionInput.setText(Float.toString(0.0F));
         });
 
-        // Send target position and clear focus from the input field
-        targetZPositionInput.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                targetZPositionInput.clearFocus();
+        jogToButton.setOnClickListener(v -> {
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_target_position, null);
+            TextInputLayout zPositionInputLayout = dialogView.findViewById(R.id.z_position_input_layout);
+            TextInputEditText zPositionInput = dialogView.findViewById(R.id.z_position_input);
 
-                espComms.sendTargetPosition(Float.parseFloat(Objects.requireNonNull(targetZPositionInput.getText()).toString()), speedMultiplier); // Parsing to float to remove unnecessary characters
-                Toast.makeText(getActivity(), "Jogging to " + Float.parseFloat(targetZPositionInput.getText().toString()), Toast.LENGTH_SHORT).show();
+            // Display current position as a reference
+            zPositionInputLayout.setPlaceholderText(String.format("%s", zPosition));
 
-                // Hide keyboard
-                InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(targetZPositionInput.getWindowToken(), 0);
-
-                return true;
-            }
-            return false;
+            new MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle("Set target position")
+                    .setView(dialogView)
+                    .setPositiveButton("Jog", (dialog, which) -> {
+                        if (String.valueOf(zPositionInput.getText()).isEmpty()) {
+                            Toast.makeText(getActivity(), "Error: empty coordinate(s)", Toast.LENGTH_SHORT).show();
+                        } else {
+                            espComms.sendTargetPosition(Float.parseFloat(Objects.requireNonNull(zPositionInput.getText()).toString()), speedMultiplier); // Parsing to float to remove unnecessary characters
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    })
+                    .show();
         });
 
         return view;

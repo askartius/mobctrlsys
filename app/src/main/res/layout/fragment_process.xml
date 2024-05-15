@@ -7,13 +7,6 @@
     android:padding="@dimen/layout_padding"
     tools:context=".ui.ProcessFragment">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/center_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tab_title"
         style="@style/TextAppearance.Material3.HeadlineLarge"
@@ -48,19 +41,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/element_margin"
+                app:placeholderText="@string/zero_value"
                 android:hint="@string/pulse_time"
-                app:hintTextAppearance="@style/TextAppearance.Material3.TitleLarge"
+                app:hintTextAppearance="@style/TextAppearance.Material3.LabelLarge"
                 app:suffixText="ms"
-                app:suffixTextAppearance="@style/TextAppearance.Material3.HeadlineLarge">
+                app:suffixTextAppearance="@style/TextAppearance.Material3.TitleLarge">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/pulse_time_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:text="0"
+                    android:gravity="end"
                     android:textAlignment="viewEnd"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge" />
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -69,18 +63,17 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/element_margin"
                 android:hint="@string/pause_time"
-                app:hintTextAppearance="@style/TextAppearance.Material3.TitleLarge"
+                app:hintTextAppearance="@style/TextAppearance.Material3.LabelLarge"
                 app:suffixText="ms"
-                app:suffixTextAppearance="@style/TextAppearance.Material3.HeadlineLarge">
+                app:suffixTextAppearance="@style/TextAppearance.Material3.TitleLarge">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/pause_time_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:text="0"
                     android:textAlignment="viewEnd"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge" />
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -91,7 +84,7 @@
                 android:layout_margin="@dimen/element_margin"
                 android:padding="@dimen/button_padding"
                 android:text="@string/apply"
-                android:textSize="@dimen/medium_text_size"/>
+                android:textSize="@dimen/medium_text_size" />
 
         </LinearLayout>
 

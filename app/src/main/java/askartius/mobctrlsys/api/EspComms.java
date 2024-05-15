@@ -69,7 +69,6 @@ public class EspComms {
                 // Monitor the connection to receive data from ESP
                 String data;
                 while ((data = bufferedReader.readLine()) != null && data.charAt(0) == '*') {
-                    Log.d("TEST", "Got data");
                     switch (data.charAt(1)) {
                         case '*': // Messages
                             makeToast(data.substring(3));
@@ -112,14 +111,13 @@ public class EspComms {
     }
 
     public void sendData(String data) {
-        if (printWriter != null) {
-            new Thread(() -> printWriter.println('*' + data)).start();
-        } else {
+        if (printWriter == null) {
             makeToast("Error sending data");
+        } else {
+            new Thread(() -> printWriter.println('*' + data)).start();
         }
     }
 
-    // TODO: Change all parameters to Strings?
     public void sendParameters(int pulseLength, int pauseLength) {
         sendData("P " + pulseLength + " " + pauseLength);
     }

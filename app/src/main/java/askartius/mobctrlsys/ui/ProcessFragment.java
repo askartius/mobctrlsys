@@ -7,18 +7,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import askartius.mobctrlsys.R;
 import askartius.mobctrlsys.api.EspComms;
 import askartius.mobctrlsys.api.EspCommsViewModel;
-import askartius.mobctrlsys.api.EspCommunication;
 
 public class ProcessFragment extends Fragment {
 
@@ -45,10 +45,18 @@ public class ProcessFragment extends Fragment {
         pulseTimeInput = view.findViewById(R.id.pulse_time_input);
         pauseTimeInput = view.findViewById(R.id.pause_time_input);
 
-        applyButton.setOnClickListener(v -> espComms.sendParameters(
-                Integer.parseInt(String.valueOf(pulseTimeInput.getText())),
-                Integer.parseInt(String.valueOf(pauseTimeInput.getText()))
-        ));
+        applyButton.setOnClickListener(v -> {
+            if (String.valueOf(pulseTimeInput.getText()).isEmpty() || String.valueOf(pauseTimeInput.getText()).isEmpty()) {
+                Toast.makeText(getActivity(), "Error: empty value(s)", Toast.LENGTH_SHORT).show();
+            } else {
+                espComms.sendParameters(
+                        Integer.parseInt(String.valueOf(pulseTimeInput.getText())),
+                        Integer.parseInt(String.valueOf(pauseTimeInput.getText()))
+                );
+            }
+
+            view.findFocus().clearFocus();
+        });
 
         return view;
     }
