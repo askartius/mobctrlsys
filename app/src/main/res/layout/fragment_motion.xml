@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/jog_home_button"
+        app:layout_constraintBottom_toTopOf="@id/jog_to_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:selectionRequired="true"
@@ -104,20 +104,20 @@
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/jog_home_button"
+        android:id="@+id/jog_to_button"
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
         android:padding="@dimen/button_padding"
-        android:text="@string/jog_home"
+        android:text="@string/jog_to"
         android:textSize="@dimen/text_size_small"
-        app:layout_constraintBottom_toTopOf="@id/z_increase_button"
+        app:layout_constraintBottom_toTopOf="@id/increase_z_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/z_increase_button"
+        android:id="@+id/increase_z_button"
         style="@style/Widget.Material3.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -125,25 +125,27 @@
         android:padding="@dimen/button_padding"
         android:text="@string/increase_z"
         android:textSize="@dimen/text_size_medium"
-        app:layout_constraintBottom_toTopOf="@id/jog_to_button"
+        app:cornerRadius="@dimen/corner_radius"
+        app:layout_constraintBottom_toTopOf="@id/jog_home_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/jog_to_button"
+        android:id="@+id/jog_home_button"
         style="@style/Widget.Material3.Button.TonalButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
         android:padding="@dimen/button_padding"
-        android:text="@string/jog_to"
+        android:text="@string/jog_home"
         android:textSize="@dimen/text_size_medium"
-        app:layout_constraintBottom_toTopOf="@id/z_decrease_button"
+        app:cornerRadius="@dimen/corner_radius"
+        app:layout_constraintBottom_toTopOf="@id/decrease_z_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/z_decrease_button"
+        android:id="@+id/decrease_z_button"
         style="@style/Widget.Material3.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -151,6 +153,7 @@
         android:padding="@dimen/button_padding"
         android:text="@string/decrease_z"
         android:textSize="@dimen/text_size_medium"
+        app:cornerRadius="@dimen/corner_radius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

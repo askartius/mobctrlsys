@@ -1,6 +1,5 @@
 package askartius.mobctrlsys.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -20,8 +19,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
-import java.util.Objects;
-
 import askartius.mobctrlsys.R;
 import askartius.mobctrlsys.api.EspComms;
 import askartius.mobctrlsys.api.EspCommsViewModel;
@@ -32,7 +29,7 @@ public class MotionFragment extends Fragment {
 
     private int speedMultiplier = 1;
     private float zPosition = 0.0F;
-    private float zChangeStep = 0.1F;
+    private final float zStep = 0.1F;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -43,17 +40,19 @@ public class MotionFragment extends Fragment {
         espComms = viewModel.getSelectedEspComms().getValue();
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_motion, container, false);
 
         MaterialButtonToggleGroup speedMultiplierSelector = view.findViewById(R.id.speed_multiplier_selector);
-        MaterialButton zIncreaseButton = view.findViewById(R.id.z_increase_button);
-        MaterialButton zDecreaseButton = view.findViewById(R.id.z_decrease_button);
+        MaterialButton increaseZButton = view.findViewById(R.id.increase_z_button);
+        MaterialButton decreaseZButton = view.findViewById(R.id.decrease_z_button);
         MaterialButton jogHomeButton = view.findViewById(R.id.jog_home_button);
         MaterialButton jogToButton = view.findViewById(R.id.jog_to_button);
         zPositionDisplay = view.findViewById(R.id.z_position_display);
+
+        // Update displayed values if they have been changed before the view was created
+        updatePosition(zPosition);
 
         // Select default speed multiplier
         speedMultiplierSelector.check(R.id.speed_x1);
@@ -70,17 +69,11 @@ public class MotionFragment extends Fragment {
             }
         });
 
-        zIncreaseButton.setOnClickListener(v -> {
-            espComms.sendTargetPosition(zPosition + zChangeStep * speedMultiplier, speedMultiplier);
-        });
+        increaseZButton.setOnClickListener(v -> espComms.sendTargetPosition(zPosition + zStep * speedMultiplier, speedMultiplier));
 
-        zDecreaseButton.setOnClickListener(v -> {
-            espComms.sendTargetPosition(zPosition - zChangeStep * speedMultiplier, speedMultiplier);
-        });
+        decreaseZButton.setOnClickListener(v -> espComms.sendTargetPosition(zPosition - zStep * speedMultiplier, speedMultiplier));
 
-        jogHomeButton.setOnClickListener(v -> {
-            espComms.sendTargetPosition(0.0F, speedMultiplier);
-        });
+        jogHomeButton.setOnClickListener(v -> espComms.sendTargetPosition(0.0F, speedMultiplier));
 
         jogToButton.setOnClickListener(v -> {
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);

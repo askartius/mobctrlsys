@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class EspCommsViewModel extends ViewModel {
-    private final MutableLiveData<EspComms> selectedEspComms = new MutableLiveData<EspComms>();
+    private final MutableLiveData<EspComms> selectedEspComms = new MutableLiveData<>();
 
     public void selectEspComms(EspComms espComms) {
         selectedEspComms.setValue(espComms);

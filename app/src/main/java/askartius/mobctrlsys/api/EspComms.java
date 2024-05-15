@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 import askartius.mobctrlsys.MainActivity;
@@ -46,14 +45,14 @@ public class EspComms {
     private PrintWriter printWriter;
     private BufferedReader bufferedReader;
 
-    private String terminalData = "";
     private TerminalFragment terminalFragment;
+    private boolean processRunning;
 
     public EspComms(MainActivity activity) {
         this.activity = activity;
     }
 
-    public void connectToEsp(String EspIp, int EspPort) {
+    public void connectToEsp(String EspIp) {
         // Get fragments to update their data
         List<Fragment> fragments = activity.getPagerAdapter().getFragments();
         terminalFragment = (TerminalFragment) fragments.get(0);
@@ -62,7 +61,7 @@ public class EspComms {
 
         new Thread(() -> {
             try {
-                socket = new Socket(EspIp, EspPort);
+                socket = new Socket(EspIp, 2048);
 
                 printWriter = new PrintWriter(socket.getOutputStream(), true);
                 bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -73,23 +72,25 @@ public class EspComms {
                     switch (data.charAt(1)) {
                         case '*': // Messages
                             makeToast(data.substring(3));
-                            updateTerminal("-> " + data.substring(3));
+                            updateTerminalText("-> " + data.substring(3));
                             break;
 
                         case 'A': // Process stopped
+                            processRunning = false;
                             activity.runOnUiThread(() -> processFragment.updateProcessState(false));
-                            updateTerminal("-> Process stopped");
+                            updateTerminalText("-> Process stopped");
                             break;
 
                         case 'Z': // Process started
+                            processRunning = true;
                             activity.runOnUiThread(() -> processFragment.updateProcessState(true));
-                            updateTerminal("-> Process started");
+                            updateTerminalText("-> Process started");
                             break;
 
                         case 'P': // Parameters
                             String[] parametersData = data.substring(3).split(" ");
                             activity.runOnUiThread(() -> processFragment.updateParameters(Integer.parseInt(parametersData[0]), Integer.parseInt(parametersData[1])));
-                            updateTerminal("-> Current parameters:" +
+                            updateTerminalText("-> Current parameters:" +
                                     "\n    - Pulse: " + parametersData[0] + " ms" +
                                     "\n    - Pause: " + parametersData[1] + " ms");
                             break;
@@ -101,7 +102,9 @@ public class EspComms {
                     }
                 }
             } catch (IOException e) {
-                makeToast("Error connecting: " + e.getMessage());
+                makeToast("Error connecting");
+                updateTerminalText("-> Error connecting: " + e.getMessage());
+                disconnectFromEsp();
             }
         }).start();
     }
@@ -110,6 +113,9 @@ public class EspComms {
         try {
             if (socket != null) {
                 socket.close();
+            }
+            if (printWriter != null) {
+                printWriter.close();
             }
             if (bufferedReader != null) {
                 bufferedReader.close();
@@ -121,34 +127,35 @@ public class EspComms {
 
     public void sendData(String data) {
         if (printWriter == null) {
-            makeToast("Error sending data");
-            updateTerminal("-> Error: no connection available!");
+            makeToast("Error sending");
+            updateTerminalText("-> Error sending: no connection");
+        } else if (data.charAt(0) == 'A' || !processRunning) {
+            new Thread(() -> printWriter.println('*' + data)).start();
         } else {
-            new Thread(() -> {
-                printWriter.println('*' + data);
-            }).start();
+            makeToast("Error sending");
+            updateTerminalText("-> Error sending: process is running");
         }
     }
 
     public void sendParameters(int pulseLength, int pauseLength) {
-        updateTerminal("<- Set parameters:" +
+        updateTerminalText("<- Set parameters:" +
                 "\n    - Pulse: " + pulseLength + " ms" +
                 "\n    - Pause: " + pauseLength + " ms");
         sendData("P " + pulseLength + " " + pauseLength);
     }
 
     public void sendTargetPosition(float targetPosition, int speedMultiplier) {
-        updateTerminal("<- Jog to " + targetPosition);
+        updateTerminalText("<- Jog to " + targetPosition);
         sendData("J " + targetPosition + " " + speedMultiplier);
     }
 
     public void startProcess() {
-        updateTerminal("<- Start the process");
+        updateTerminalText("<- Start the process");
         sendData("Z");
     }
 
     public void stopProcess() {
-        updateTerminal("<- Stop the process");
+        updateTerminalText("<- Stop the process");
         sendData("A");
     }
 
@@ -156,9 +163,7 @@ public class EspComms {
         activity.runOnUiThread(() -> Toast.makeText(activity, message, Toast.LENGTH_SHORT).show());
     }
 
-    public void updateTerminal(String data) {
-        terminalData += '\n' + data;
-
-        activity.runOnUiThread(() -> terminalFragment.updateTerminal(terminalData));
+    public void updateTerminalText(String text) {
+        activity.runOnUiThread(() -> terminalFragment.updateTerminalText(text));
     }
 }

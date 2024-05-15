@@ -19,8 +19,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
-import java.util.Objects;
-
 import askartius.mobctrlsys.R;
 import askartius.mobctrlsys.api.EspComms;
 import askartius.mobctrlsys.api.EspCommsViewModel;
@@ -29,13 +27,11 @@ public class ProcessFragment extends Fragment {
     private MaterialTextView pulseTimeDisplay;
     private MaterialTextView pauseTimeDisplay;
     private MaterialTextView processStateDisplay;
-    private MaterialButton startProcessButton;
-    private MaterialButton stopProcessButton;
     private EspComms espComms;
 
-    private int pulseTime;
-    private int pauseTime;
-    private boolean isRunning;
+    private int pulseTime = 1;
+    private int pauseTime = 1;
+    private boolean processRunning = false;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -54,8 +50,12 @@ public class ProcessFragment extends Fragment {
         pulseTimeDisplay = view.findViewById(R.id.pulse_time_display);
         pauseTimeDisplay = view.findViewById(R.id.pause_time_display);
         processStateDisplay = view.findViewById(R.id.process_state_display);
-        startProcessButton = view.findViewById(R.id.start_process_button);
-        stopProcessButton = view.findViewById(R.id.stop_process_button);
+        MaterialButton startProcessButton = view.findViewById(R.id.start_process_button);
+        MaterialButton stopProcessButton = view.findViewById(R.id.stop_process_button);
+
+        // Update displayed values if they have been changed before the view was created
+        updateProcessState(processRunning);
+        updateParameters(pulseTime, pauseTime);
 
         pulseTimeDisplay.setOnClickListener(v -> {
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);
@@ -116,15 +116,15 @@ public class ProcessFragment extends Fragment {
         this.pulseTime = pulseTime;
         this.pauseTime = pauseTime;
         if (pauseTimeDisplay != null) {
-            pulseTimeDisplay.setText(String.valueOf(pulseTime));
-            pauseTimeDisplay.setText(String.valueOf(pauseTime));
+            pulseTimeDisplay.setText(String.valueOf(pulseTime).concat(" ms"));
+            pauseTimeDisplay.setText(String.valueOf(pauseTime).concat(" ms"));
         }
     }
 
-    public void updateProcessState(boolean isRunning) {
-        this.isRunning = isRunning;
+    public void updateProcessState(boolean processRunning) {
+        this.processRunning = processRunning;
         if (processStateDisplay != null) {
-            if (isRunning) {
+            if (processRunning) {
                 processStateDisplay.setText(R.string.running);
                 processStateDisplay.setTextColor(Color.GREEN);
             } else {
