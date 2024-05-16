@@ -88,16 +88,18 @@ public class EspComms {
                             break;
 
                         case 'P': // Parameters
-                            String[] parametersData = data.substring(3).split(" ");
-                            activity.runOnUiThread(() -> processFragment.updateParameters(Integer.parseInt(parametersData[0]), Integer.parseInt(parametersData[1])));
+                            data = data.substring(3);
+                            int pulseTime = Integer.parseInt(data.substring(0, data.indexOf(' ')));
+                            int pauseTime = Integer.parseInt(data.substring(data.indexOf(' ') + 1));
+                            activity.runOnUiThread(() -> processFragment.updateParameters(pulseTime, pauseTime));
                             updateTerminalText("-> Current parameters:" +
-                                    "\n    - Pulse: " + parametersData[0] + " ms" +
-                                    "\n    - Pause: " + parametersData[1] + " ms");
+                                    "\n    - Pulse: " + pulseTime + " ms" +
+                                    "\n    - Pause: " + pauseTime + " ms");
                             break;
 
                         case 'J': // Motion
-                            String motionData = data.substring(3);
-                            activity.runOnUiThread(() -> motionFragment.updatePosition(Float.parseFloat(motionData)));
+                            String finalData = data;
+                            activity.runOnUiThread(() -> motionFragment.updatePosition(finalData.substring(3)));
                             break;
                     }
                 }
@@ -145,7 +147,8 @@ public class EspComms {
     }
 
     public void sendTargetPosition(float targetZPosition, int speedMultiplier) {
-        targetZPosition = (float) Math.round(targetZPosition * 1000) / 1000;
+        targetZPosition = (float) Math.round(targetZPosition * 1000) / 1000; // Round the target position to the 3 decimal digits
+
         updateTerminalText("<- Jog to " + targetZPosition);
         sendData("J " + targetZPosition + " " + speedMultiplier);
     }

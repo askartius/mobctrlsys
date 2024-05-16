@@ -52,7 +52,7 @@ public class MotionFragment extends Fragment {
         zPositionDisplay = view.findViewById(R.id.z_position_display);
 
         // Update displayed values if they have been changed before the view was created
-        updatePosition(zPosition);
+        updatePosition(String.valueOf(zPosition));
 
         // Select default speed multiplier
         speedMultiplierSelector.check(R.id.speed_x1);
@@ -106,10 +106,10 @@ public class MotionFragment extends Fragment {
         return view;
     }
 
-    public void updatePosition(float zPosition) {
-        this.zPosition = zPosition;
+    public void updatePosition(String zPosition) {
+        this.zPosition = Float.parseFloat(zPosition);
         if (zPositionDisplay != null) {
-            zPositionDisplay.setText(String.format("%s", zPosition));
+            zPositionDisplay.setText(zPosition);
         }
     }
 }
