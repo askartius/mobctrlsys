@@ -12,6 +12,7 @@ import askartius.mobctrlsys.databinding.ActivityMainBinding;
 import askartius.mobctrlsys.ui.PagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
+    private final String ESP_IP = "192.168.3.22";
     private ActivityMainBinding binding;
     private EspComms espComms;
 
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        espComms.connectToEsp("192.168.3.22");
+        espComms.connectToEsp(ESP_IP);
     }
 
     @Override

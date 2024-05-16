@@ -69,11 +69,17 @@ public class MotionFragment extends Fragment {
             }
         });
 
-        increaseZButton.setOnClickListener(v -> espComms.sendTargetPosition(zPosition + zStep * speedMultiplier, speedMultiplier));
+        increaseZButton.setOnClickListener(v ->
+                espComms.sendTargetPosition(zPosition + zStep * speedMultiplier, speedMultiplier)
+        );
 
-        decreaseZButton.setOnClickListener(v -> espComms.sendTargetPosition(zPosition - zStep * speedMultiplier, speedMultiplier));
+        decreaseZButton.setOnClickListener(v ->
+                espComms.sendTargetPosition(zPosition - zStep * speedMultiplier, speedMultiplier)
+        );
 
-        jogHomeButton.setOnClickListener(v -> espComms.sendTargetPosition(0.0F, speedMultiplier));
+        jogHomeButton.setOnClickListener(v ->
+                espComms.sendTargetPosition(0.0F, speedMultiplier)
+        );
 
         jogToButton.setOnClickListener(v -> {
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);

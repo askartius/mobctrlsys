@@ -144,9 +144,10 @@ public class EspComms {
         sendData("P " + pulseLength + " " + pauseLength);
     }
 
-    public void sendTargetPosition(float targetPosition, int speedMultiplier) {
-        updateTerminalText("<- Jog to " + targetPosition);
-        sendData("J " + targetPosition + " " + speedMultiplier);
+    public void sendTargetPosition(float targetZPosition, int speedMultiplier) {
+        targetZPosition = (float) Math.round(targetZPosition * 1000) / 1000;
+        updateTerminalText("<- Jog to " + targetZPosition);
+        sendData("J " + targetZPosition + " " + speedMultiplier);
     }
 
     public void startProcess() {

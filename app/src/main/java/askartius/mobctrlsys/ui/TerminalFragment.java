@@ -20,6 +20,7 @@ import askartius.mobctrlsys.api.EspComms;
 import askartius.mobctrlsys.api.EspCommsViewModel;
 
 public class TerminalFragment extends Fragment {
+    private final String ESP_IP = "192.168.3.22";
     private MaterialTextView terminalDisplay;
     private MaterialButton connectButton;
     private EspComms espComms;
@@ -50,7 +51,7 @@ public class TerminalFragment extends Fragment {
         terminalDisplay.setMovementMethod(new ScrollingMovementMethod());
 
         connectButton.setOnClickListener(v -> {
-            espComms.connectToEsp("192.168.3.22");
+            espComms.connectToEsp(ESP_IP);
             connectButton.setEnabled(false);
         });
 
