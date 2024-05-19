@@ -31,6 +31,7 @@ import askartius.mobctrlsys.ui.TerminalFragment;
         Z - run the process
         P - parameters
         J - jog to
+        R - reset position
         * - message
         # - replica of a message to Serial Monitor (no need to process it)
 
@@ -98,8 +99,13 @@ public class EspComms {
                             break;
 
                         case 'J': // Motion
-                            String finalData = data;
-                            activity.runOnUiThread(() -> motionFragment.updatePosition(finalData.substring(3)));
+                            float zPosition = Float.parseFloat(data.substring(3)) / 1000;
+                            activity.runOnUiThread(() -> motionFragment.updatePosition(zPosition));
+                            break;
+
+                        case 'R':
+                            updateTerminalText("-> Position reset");
+                            activity.runOnUiThread(() -> motionFragment.updatePosition(0.0F));
                             break;
                     }
                 }
@@ -162,6 +168,11 @@ public class EspComms {
     public void stopProcess() {
         updateTerminalText("<- Stop the process");
         sendData("A");
+    }
+
+    public void resetPosition() {
+        updateTerminalText("<- Reset position");
+        sendData("R");
     }
 
     public void makeToast(String message) {

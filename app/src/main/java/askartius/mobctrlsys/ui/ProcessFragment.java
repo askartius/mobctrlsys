@@ -57,6 +57,7 @@ public class ProcessFragment extends Fragment {
         updateProcessState(processRunning);
         updateParameters(pulseTime, pauseTime);
 
+        // Set pulse time
         pulseTimeDisplay.setOnClickListener(v -> {
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);
             TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
@@ -81,6 +82,7 @@ public class ProcessFragment extends Fragment {
                     .show();
         });
 
+        // Set pause time
         pauseTimeDisplay.setOnClickListener(v -> {
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);
             TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);

@@ -52,7 +52,7 @@ public class MotionFragment extends Fragment {
         zPositionDisplay = view.findViewById(R.id.z_position_display);
 
         // Update displayed values if they have been changed before the view was created
-        updatePosition(String.valueOf(zPosition));
+        updatePosition(zPosition);
 
         // Select default speed multiplier
         speedMultiplierSelector.check(R.id.speed_x1);
@@ -86,6 +86,7 @@ public class MotionFragment extends Fragment {
             TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
+            dataInputLayout.setSuffixText("mm");
             dataInputLayout.setPlaceholderText(String.format("%s", zPosition)); // Display current value as a reference
 
             new MaterialAlertDialogBuilder(requireActivity())
@@ -103,13 +104,48 @@ public class MotionFragment extends Fragment {
                     .show();
         });
 
+        // Duplicate of the "Jog to" button functionality, for now
+        zPositionDisplay.setOnClickListener(v -> {
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);
+            TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
+            TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
+
+            dataInputLayout.setSuffixText("mm");
+            dataInputLayout.setPlaceholderText(String.format("%s", zPosition)); // Display current value as a reference
+
+            new MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle("Target position")
+                    .setView(dialogView)
+                    .setPositiveButton("Jog", (dialog, which) -> {
+                        if (String.valueOf(dataInput.getText()).isEmpty()) {
+                            Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
+                        } else {
+                            espComms.sendTargetPosition(Float.parseFloat(String.valueOf(dataInput.getText())), speedMultiplier); // Parsing to float to remove unnecessary characters
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    })
+                    .show();
+        });
+
+        // Reset position
+        zPositionDisplay.setOnLongClickListener(v -> {
+            new MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle("Reset position?")
+                    .setPositiveButton("Yes", (dialog, which) -> espComms.resetPosition())
+                    .setNegativeButton("No", (dialog, which) -> {
+                    })
+                    .show();
+            return true;
+        });
+
         return view;
     }
 
-    public void updatePosition(String zPosition) {
-        this.zPosition = Float.parseFloat(zPosition);
+    public void updatePosition(float zPosition) {
+        this.zPosition = zPosition;
         if (zPositionDisplay != null) {
-            zPositionDisplay.setText(zPosition);
+            zPositionDisplay.setText(String.valueOf(zPosition).concat(" mm"));
         }
     }
 }
