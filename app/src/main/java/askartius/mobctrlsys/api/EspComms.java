@@ -29,12 +29,10 @@ import askartius.mobctrlsys.ui.TerminalFragment;
             1 - connected
         A - stop the process
         Z - run the process
-        P - parameters:
-            0 - receive
-            1 - send
-            2 - applied
+        P - parameters
         J - jog to
         * - message
+        # - replica of a message to Serial Monitor (no need to process it)
 
     Author: Askar Idrisov
 */
@@ -46,6 +44,8 @@ public class EspComms {
     private BufferedReader bufferedReader;
 
     private TerminalFragment terminalFragment;
+    private ProcessFragment processFragment;
+    private MotionFragment motionFragment;
     private boolean processRunning;
 
     public EspComms(MainActivity activity) {
@@ -56,8 +56,8 @@ public class EspComms {
         // Get fragments to update their data
         List<Fragment> fragments = activity.getPagerAdapter().getFragments();
         terminalFragment = (TerminalFragment) fragments.get(0);
-        ProcessFragment processFragment = (ProcessFragment) fragments.get(1);
-        MotionFragment motionFragment = (MotionFragment) fragments.get(2);
+        processFragment = (ProcessFragment) fragments.get(1);
+        motionFragment = (MotionFragment) fragments.get(2);
 
         new Thread(() -> {
             try {
@@ -131,11 +131,14 @@ public class EspComms {
         if (printWriter == null) {
             makeToast("Error sending");
             updateTerminalText("-> Error sending: no connection");
-        } else if (data.charAt(0) == 'A' || !processRunning) {
-            new Thread(() -> printWriter.println('*' + data)).start();
-        } else {
+        } else if (processRunning && data.charAt(0) != 'A') {
             makeToast("Error sending");
             updateTerminalText("-> Error sending: process is running");
+        } else {
+            new Thread(() -> {
+                printWriter.print('*' + data + '\n');
+                printWriter.flush();
+            }).start();
         }
     }
 
@@ -147,10 +150,8 @@ public class EspComms {
     }
 
     public void sendTargetPosition(float targetZPosition, int speedMultiplier) {
-        targetZPosition = (float) Math.round(targetZPosition * 1000) / 1000; // Round the target position to the 3 decimal digits
-
         updateTerminalText("<- Jog to " + targetZPosition);
-        sendData("J " + targetZPosition + " " + speedMultiplier);
+        sendData("J " + Math.round(targetZPosition * 1000) + " " + speedMultiplier); // Round the target position to "3 decimal digits"
     }
 
     public void startProcess() {
