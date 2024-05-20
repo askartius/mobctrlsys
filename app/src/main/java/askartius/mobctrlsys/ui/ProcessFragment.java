@@ -1,6 +1,9 @@
 package askartius.mobctrlsys.ui;
 
+import static askartius.mobctrlsys.R.color.colorStart;
+
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -155,10 +158,10 @@ public class ProcessFragment extends Fragment {
         if (processStateDisplay != null) {
             if (processRunning) {
                 processStateDisplay.setText(R.string.running);
-                processStateDisplay.setTextColor(Color.GREEN);
+                processStateDisplay.setTextColor(getResources().getColor(R.color.colorStart, null));
             } else {
                 processStateDisplay.setText(R.string.stopped);
-                processStateDisplay.setTextColor(Color.RED);
+                processStateDisplay.setTextColor(getResources().getColor(R.color.colorStop, null));
             }
         }
     }

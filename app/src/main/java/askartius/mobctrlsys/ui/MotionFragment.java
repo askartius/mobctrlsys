@@ -20,6 +20,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.util.Locale;
+
 import askartius.mobctrlsys.R;
 import askartius.mobctrlsys.api.EspComms;
 import askartius.mobctrlsys.api.EspCommsViewModel;
@@ -156,7 +158,7 @@ public class MotionFragment extends Fragment {
     public void updatePosition(float zPosition) {
         this.zPosition = zPosition;
         if (zPositionDisplay != null) {
-            zPositionDisplay.setText(String.valueOf(zPosition));
+            zPositionDisplay.setText(String.format(Locale.getDefault(), "%.3f", zPosition));
         }
     }
 }
