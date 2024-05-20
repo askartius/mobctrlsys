@@ -91,11 +91,13 @@ public class EspComms {
                         case 'P': // Parameters
                             data = data.substring(3);
                             int pulseTime = Integer.parseInt(data.substring(0, data.indexOf(' ')));
-                            int pauseTime = Integer.parseInt(data.substring(data.indexOf(' ') + 1));
-                            activity.runOnUiThread(() -> processFragment.updateParameters(pulseTime, pauseTime));
+                            int pauseTime = Integer.parseInt(data.substring(data.indexOf(' ') + 1, data.lastIndexOf(' ')));
+                            int gapVoltage = Integer.parseInt(data.substring(data.lastIndexOf(' ') + 1));
+                            activity.runOnUiThread(() -> processFragment.updateParameters(pulseTime, pauseTime, gapVoltage));
                             updateTerminalText("-> Current parameters:" +
-                                    "\n    - Pulse: " + pulseTime + " ms" +
-                                    "\n    - Pause: " + pauseTime + " ms");
+                                    "\n    - Pulse time: " + pulseTime + " μs" +
+                                    "\n    - Pause time: " + pauseTime + " μs" +
+                                    "\n    - Gap voltage: " + gapVoltage + " V");
                             break;
 
                         case 'J': // Motion
@@ -148,31 +150,38 @@ public class EspComms {
         }
     }
 
-    public void sendParameters(int pulseLength, int pauseLength) {
-        updateTerminalText("<- Set parameters:" +
-                "\n    - Pulse: " + pulseLength + " ms" +
-                "\n    - Pause: " + pauseLength + " ms");
-        sendData("P " + pulseLength + " " + pauseLength);
+    public void sendParameters(int pulseTime, int pauseTime, int gapVoltage) {
+        sendData("P " + pulseTime + ' ' + pauseTime + ' ' + gapVoltage);
+        updateTerminalText("<- Set parameters:");
+        if (pulseTime != -1) {
+            updateTerminalText("    - Pulse time: " + pulseTime + " μs");
+        }
+        if (pauseTime != -1) {
+            updateTerminalText("    - Pause time: " + pauseTime + " μs");
+        }
+        if (gapVoltage != -1) {
+            updateTerminalText("    - Gap voltage: " + gapVoltage + " V");
+        }
     }
 
     public void sendTargetPosition(float targetZPosition, int speedMultiplier) {
+        sendData("J " + Math.round(targetZPosition * 1000) + ' ' + speedMultiplier); // Round the target position to "3 decimal digits"
         updateTerminalText("<- Jog to " + targetZPosition);
-        sendData("J " + Math.round(targetZPosition * 1000) + " " + speedMultiplier); // Round the target position to "3 decimal digits"
     }
 
     public void startProcess() {
-        updateTerminalText("<- Start the process");
         sendData("Z");
+        updateTerminalText("<- Start the process");
     }
 
     public void stopProcess() {
-        updateTerminalText("<- Stop the process");
         sendData("A");
+        updateTerminalText("<- Stop the process");
     }
 
     public void resetPosition() {
-        updateTerminalText("<- Reset position");
         sendData("R");
+        updateTerminalText("<- Reset position");
     }
 
     public void makeToast(String message) {

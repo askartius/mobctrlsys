@@ -52,7 +52,7 @@
                 android:layout_margin="@dimen/element_margin"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="@string/zero_value_decimal"
+                android:text="@string/unknown"
                 android:textSize="@dimen/text_size_large" />
 
         </LinearLayout>

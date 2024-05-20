@@ -18,7 +18,6 @@
     <string name="x100">x100</string>
     <string name="increase_z">+Z</string>
     <string name="decrease_z">-Z</string>
-    <string name="zero_value_decimal">0.0</string>
     <string name="target_position">Target position</string>
     <string name="jog_home">Jog home</string>
     <string name="pulse_time">Pulse time</string>
@@ -29,13 +28,12 @@
     <string name="pulse_time_hint">Input pulse time in milliseconds</string>
     <string name="terminal">Terminal</string>
     <string name="jog_to">Jog to</string>
-    <string name="ms">ms</string>
-    <string name="zero_milliseconds">0 ms</string>
     <string name="start_the_process">Start the process</string>
     <string name="stop_the_process">Stop the process</string>
     <string name="process_state">Process state</string>
-    <string name="unknown">Unknown</string>
     <string name="stopped">Stopped</string>
     <string name="running">Running</string>
-    <string name="unit_milliseconds">" ms"</string>
+    <string name="microsecond">"μs"</string>
+    <string name="gap_voltage">Gap voltage</string>
+    <string name="unknown">\???</string>
 </resources>
