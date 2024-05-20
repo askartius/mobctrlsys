@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class MotionFragment extends Fragment {
 
     private int speedMultiplier = 1;
     private float zPosition = 0.0F;
-    private final float zStep = 0.1F;
+    private final float zStep = 0.025F;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -61,21 +62,31 @@ public class MotionFragment extends Fragment {
             if (isChecked) {
                 if (checkedId == R.id.speed_x1) {
                     speedMultiplier = 1;
-                } else if (checkedId == R.id.speed_x10) {
-                    speedMultiplier = 10;
-                } else if (checkedId == R.id.speed_x100) {
-                    speedMultiplier = 100;
+                } else if (checkedId == R.id.speed_x5) {
+                    speedMultiplier = 5;
+                } else if (checkedId == R.id.speed_x25) {
+                    speedMultiplier = 25;
                 }
             }
         });
 
         increaseZButton.setOnClickListener(v ->
-                espComms.sendTargetPosition(zPosition + zStep * speedMultiplier, speedMultiplier)
+                espComms.sendTargetPosition(zPosition + zStep, speedMultiplier)
         );
 
+        increaseZButton.setOnLongClickListener(v -> {
+            espComms.sendTargetPosition(zPosition + zStep * 10, speedMultiplier); // Long click - x10 movement
+            return true;
+        });
+
         decreaseZButton.setOnClickListener(v ->
-                espComms.sendTargetPosition(zPosition - zStep * speedMultiplier, speedMultiplier)
+                espComms.sendTargetPosition(zPosition - zStep, speedMultiplier)
         );
+
+        decreaseZButton.setOnLongClickListener(v -> {
+            espComms.sendTargetPosition(zPosition - zStep * 10, speedMultiplier); // Long click - x10 movement
+            return true;
+        });
 
         jogHomeButton.setOnClickListener(v ->
                 espComms.sendTargetPosition(0.0F, speedMultiplier)
@@ -87,7 +98,7 @@ public class MotionFragment extends Fragment {
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
             dataInputLayout.setSuffixText("mm");
-            dataInputLayout.setPlaceholderText(String.format("%s", zPosition)); // Display current value as a reference
+            dataInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
 
             new MaterialAlertDialogBuilder(requireActivity())
                     .setTitle("Target position")
@@ -111,7 +122,7 @@ public class MotionFragment extends Fragment {
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
             dataInputLayout.setSuffixText("mm");
-            dataInputLayout.setPlaceholderText(String.format("%s", zPosition)); // Display current value as a reference
+            dataInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
 
             new MaterialAlertDialogBuilder(requireActivity())
                     .setTitle("Target position")
@@ -145,7 +156,7 @@ public class MotionFragment extends Fragment {
     public void updatePosition(float zPosition) {
         this.zPosition = zPosition;
         if (zPositionDisplay != null) {
-            zPositionDisplay.setText(String.valueOf(zPosition).concat(" mm"));
+            zPositionDisplay.setText(String.valueOf(zPosition));
         }
     }
 }

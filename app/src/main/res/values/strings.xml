@@ -36,4 +36,7 @@
     <string name="microsecond">"μs"</string>
     <string name="gap_voltage">Gap voltage</string>
     <string name="unknown">\???</string>
+    <string name="x5">x5</string>
+    <string name="x25">x25</string>
+    <string name="millimeter">mm</string>
 </resources>

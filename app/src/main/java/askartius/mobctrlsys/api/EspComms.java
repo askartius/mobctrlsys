@@ -100,14 +100,14 @@ public class EspComms {
                                     "\n    - Gap voltage: " + gapVoltage + " V");
                             break;
 
-                        case 'J': // Motion
+                        case 'J': // Current position
                             float zPosition = Float.parseFloat(data.substring(3)) / 1000;
                             activity.runOnUiThread(() -> motionFragment.updatePosition(zPosition));
                             break;
 
-                        case 'R':
-                            updateTerminalText("-> Position reset");
+                        case 'R': // Position reset
                             activity.runOnUiThread(() -> motionFragment.updatePosition(0.0F));
+                            updateTerminalText("-> Position reset");
                             break;
                     }
                 }
@@ -144,7 +144,9 @@ public class EspComms {
             updateTerminalText("-> Error sending: process is running");
         } else {
             new Thread(() -> {
-                printWriter.print('*' + data + '\n');
+                printWriter.print('*');
+                printWriter.print(data);
+                printWriter.print('\n');
                 printWriter.flush();
             }).start();
         }

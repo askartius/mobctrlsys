@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,7 @@ public class ProcessFragment extends Fragment {
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
             dataInputLayout.setSuffixText("μs");
+            dataInput.setInputType(InputType.TYPE_CLASS_NUMBER);
 
             new MaterialAlertDialogBuilder(requireActivity())
                     .setTitle("Pulse time")
@@ -75,8 +77,6 @@ public class ProcessFragment extends Fragment {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
                             Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
                         } else {
-                            /*pulseTimeDisplay.setText(String.valueOf(Integer.parseInt(String.valueOf(dataInput.getText()))).concat(" ms"));
-                            pulseTime = Integer.parseInt(String.valueOf(dataInput.getText()));*/
                             espComms.sendParameters(Integer.parseInt(String.valueOf(dataInput.getText())), -1, -1);
                         }
                     })
@@ -92,6 +92,7 @@ public class ProcessFragment extends Fragment {
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
             dataInputLayout.setSuffixText("μs");
+            dataInput.setInputType(InputType.TYPE_CLASS_NUMBER);
 
             new MaterialAlertDialogBuilder(requireActivity())
                     .setTitle("Pause time")
@@ -100,8 +101,6 @@ public class ProcessFragment extends Fragment {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
                             Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
                         } else {
-                            /*pauseTimeDisplay.setText(String.valueOf(Integer.parseInt(String.valueOf(dataInput.getText()))).concat(" ms"));
-                            pauseTime = Integer.parseInt(String.valueOf(dataInput.getText()));*/
                             espComms.sendParameters(-1, Integer.parseInt(String.valueOf(dataInput.getText())), -1);
                         }
                     })
@@ -116,6 +115,7 @@ public class ProcessFragment extends Fragment {
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
             dataInputLayout.setSuffixText("V");
+            dataInput.setInputType(InputType.TYPE_CLASS_NUMBER);
 
             new MaterialAlertDialogBuilder(requireActivity())
                     .setTitle("Gap voltage")
@@ -124,8 +124,6 @@ public class ProcessFragment extends Fragment {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
                             Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
                         } else {
-                            /*gapVoltageDisplay.setText(String.valueOf(Integer.parseInt(String.valueOf(dataInput.getText()))).concat(" V"));
-                            gapVoltage = Integer.parseInt(String.valueOf(dataInput.getText()));*/
                             espComms.sendParameters(-1, -1, Integer.parseInt(String.valueOf(dataInput.getText())));
                         }
                     })
