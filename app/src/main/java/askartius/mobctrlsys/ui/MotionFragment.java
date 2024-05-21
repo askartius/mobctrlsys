@@ -27,11 +27,11 @@ import askartius.mobctrlsys.api.EspComms;
 import askartius.mobctrlsys.api.EspCommsViewModel;
 
 public class MotionFragment extends Fragment {
-    private MaterialTextView zPositionDisplay;
+    private MaterialTextView zCoordinateDisplay;
     private EspComms espComms;
 
     private int speedMultiplier = 1;
-    private float zPosition = 0.0F;
+    private float zCoordinate = 0.0F;
     private final float zStep = 0.025F;
 
     @Override
@@ -52,10 +52,10 @@ public class MotionFragment extends Fragment {
         MaterialButton decreaseZButton = view.findViewById(R.id.decrease_z_button);
         MaterialButton jogHomeButton = view.findViewById(R.id.jog_home_button);
         MaterialButton jogToButton = view.findViewById(R.id.jog_to_button);
-        zPositionDisplay = view.findViewById(R.id.z_position_display);
+        zCoordinateDisplay = view.findViewById(R.id.z_coordinate_display);
 
         // Update displayed values if they have been changed before the view was created
-        updatePosition(zPosition);
+        updateCoordinates(zCoordinate);
 
         // Select default speed multiplier
         speedMultiplierSelector.check(R.id.speed_x1);
@@ -73,25 +73,25 @@ public class MotionFragment extends Fragment {
         });
 
         increaseZButton.setOnClickListener(v ->
-                espComms.sendTargetPosition(zPosition + zStep, speedMultiplier)
+                espComms.sendTargetCoordinates(zCoordinate + zStep, speedMultiplier)
         );
 
         increaseZButton.setOnLongClickListener(v -> {
-            espComms.sendTargetPosition(zPosition + zStep * 10, speedMultiplier); // Long click - x10 movement
+            espComms.sendTargetCoordinates(zCoordinate + zStep * 10, speedMultiplier); // Long click - x10 movement
             return true;
         });
 
         decreaseZButton.setOnClickListener(v ->
-                espComms.sendTargetPosition(zPosition - zStep, speedMultiplier)
+                espComms.sendTargetCoordinates(zCoordinate - zStep, speedMultiplier)
         );
 
         decreaseZButton.setOnLongClickListener(v -> {
-            espComms.sendTargetPosition(zPosition - zStep * 10, speedMultiplier); // Long click - x10 movement
+            espComms.sendTargetCoordinates(zCoordinate - zStep * 10, speedMultiplier); // Long click - x10 movement
             return true;
         });
 
         jogHomeButton.setOnClickListener(v ->
-                espComms.sendTargetPosition(0.0F, speedMultiplier)
+                espComms.sendTargetCoordinates(0.0F, speedMultiplier)
         );
 
         jogToButton.setOnClickListener(v -> {
@@ -99,54 +99,54 @@ public class MotionFragment extends Fragment {
             TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
-            dataInputLayout.setSuffixText("mm");
+            dataInputLayout.setSuffixText(getString(R.string.unit_millimeter));
             dataInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
 
             new MaterialAlertDialogBuilder(requireActivity())
-                    .setTitle("Target position")
+                    .setTitle(R.string.jog_to)
                     .setView(dialogView)
-                    .setPositiveButton("Jog", (dialog, which) -> {
+                    .setPositiveButton(R.string.jog, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
-                            Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.error_empty_value), Toast.LENGTH_SHORT).show();
                         } else {
-                            espComms.sendTargetPosition(Float.parseFloat(String.valueOf(dataInput.getText())), speedMultiplier); // Parsing to float to remove unnecessary characters
+                            espComms.sendTargetCoordinates(Float.parseFloat(String.valueOf(dataInput.getText())), speedMultiplier); // Parsing to float to remove unnecessary characters
                         }
                     })
-                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
                     })
                     .show();
         });
 
         // Duplicate of the "Jog to" button functionality, for now
-        zPositionDisplay.setOnClickListener(v -> {
+        zCoordinateDisplay.setOnClickListener(v -> {
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);
             TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
-            dataInputLayout.setSuffixText("mm");
+            dataInputLayout.setSuffixText(getString(R.string.unit_millimeter));
             dataInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
 
             new MaterialAlertDialogBuilder(requireActivity())
-                    .setTitle("Target position")
+                    .setTitle(R.string.jog_to)
                     .setView(dialogView)
-                    .setPositiveButton("Jog", (dialog, which) -> {
+                    .setPositiveButton(R.string.jog, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
-                            Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.error_empty_value), Toast.LENGTH_SHORT).show();
                         } else {
-                            espComms.sendTargetPosition(Float.parseFloat(String.valueOf(dataInput.getText())), speedMultiplier); // Parsing to float to remove unnecessary characters
+                            espComms.sendTargetCoordinates(Float.parseFloat(String.valueOf(dataInput.getText())), speedMultiplier); // Parsing to float to remove unnecessary characters
                         }
                     })
-                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
                     })
                     .show();
         });
 
-        // Reset position
-        zPositionDisplay.setOnLongClickListener(v -> {
+        // Reset coordinate
+        zCoordinateDisplay.setOnLongClickListener(v -> {
             new MaterialAlertDialogBuilder(requireActivity())
-                    .setTitle("Reset position?")
-                    .setPositiveButton("Yes", (dialog, which) -> espComms.resetPosition())
-                    .setNegativeButton("No", (dialog, which) -> {
+                    .setTitle(R.string.reset_the_coordinate)
+                    .setPositiveButton(R.string.yes, (dialog, which) -> espComms.resetCoordinate())
+                    .setNegativeButton(R.string.no, (dialog, which) -> {
                     })
                     .show();
             return true;
@@ -155,10 +155,10 @@ public class MotionFragment extends Fragment {
         return view;
     }
 
-    public void updatePosition(float zPosition) {
-        this.zPosition = zPosition;
-        if (zPositionDisplay != null) {
-            zPositionDisplay.setText(String.format(Locale.getDefault(), "%.3f", zPosition));
+    public void updateCoordinates(float zCoordinate) {
+        this.zCoordinate = zCoordinate;
+        if (zCoordinateDisplay != null) {
+            zCoordinateDisplay.setText(String.format(Locale.getDefault(), "%.3f", zCoordinate));
         }
     }
 }

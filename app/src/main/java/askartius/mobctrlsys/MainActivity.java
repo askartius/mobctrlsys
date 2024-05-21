@@ -1,5 +1,6 @@
 package askartius.mobctrlsys;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -14,10 +15,10 @@ import askartius.mobctrlsys.databinding.ActivityMainBinding;
 import askartius.mobctrlsys.ui.PagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
-    private final String ESP_IP = "192.168.3.22";
     private ActivityMainBinding binding;
     private EspComms espComms;
 
+    @SuppressLint("BatteryLife")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 binding.navigationBar.getMenu().getItem(position).setChecked(true);
             }
         });
+        binding.pager.setUserInputEnabled(false);
 
-        espComms.connectToEsp(ESP_IP);
+        espComms.connectToEsp(espComms.getDefaultEspIp());
     }
 
     @Override

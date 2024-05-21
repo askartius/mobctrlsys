@@ -31,7 +31,7 @@ import askartius.mobctrlsys.ui.TerminalFragment;
         Z - run the process
         P - parameters
         J - jog to
-        R - reset position
+        R - reset coordinate
         * - message
         # - replica of a message to Serial Monitor (no need to process it)
 
@@ -100,14 +100,14 @@ public class EspComms {
                                     "\n    - Gap voltage: " + gapVoltage + " V");
                             break;
 
-                        case 'J': // Current position
-                            float zPosition = Float.parseFloat(data.substring(3)) / 1000;
-                            activity.runOnUiThread(() -> motionFragment.updatePosition(zPosition));
+                        case 'J': // Current coordinates
+                            float zCoordinate = Float.parseFloat(data.substring(3)) / 1000;
+                            activity.runOnUiThread(() -> motionFragment.updateCoordinates(zCoordinate));
                             break;
 
-                        case 'R': // Position reset
-                            activity.runOnUiThread(() -> motionFragment.updatePosition(0.0F));
-                            updateTerminalText("-> Position reset");
+                        case 'R': // Coordinate reset
+                            activity.runOnUiThread(() -> motionFragment.updateCoordinates(0.0F));
+                            updateTerminalText("-> Coordinate reset");
                             break;
                     }
                 }
@@ -153,7 +153,6 @@ public class EspComms {
     }
 
     public void sendParameters(int pulseTime, int pauseTime, int gapVoltage) {
-        sendData("P " + pulseTime + ' ' + pauseTime + ' ' + gapVoltage);
         updateTerminalText("<- Set parameters:");
         if (pulseTime != -1) {
             updateTerminalText("    - Pulse time: " + pulseTime + " μs");
@@ -164,26 +163,27 @@ public class EspComms {
         if (gapVoltage != -1) {
             updateTerminalText("    - Gap voltage: " + gapVoltage + " V");
         }
+        sendData("P " + pulseTime + ' ' + pauseTime + ' ' + gapVoltage);
     }
 
-    public void sendTargetPosition(float targetZPosition, int speedMultiplier) {
-        sendData("J " + Math.round(targetZPosition * 1000) + ' ' + speedMultiplier); // Round the target position to "3 decimal digits"
-        updateTerminalText("<- Jog to " + targetZPosition);
+    public void sendTargetCoordinates(float targetZCoordinate, int speedMultiplier) {
+        updateTerminalText("<- Jog to " + targetZCoordinate);
+        sendData("J " + Math.round(targetZCoordinate * 1000) + ' ' + speedMultiplier); // Round the target coordinate to "3 decimal digits"
     }
 
     public void startProcess() {
-        sendData("Z");
         updateTerminalText("<- Start the process");
+        sendData("Z");
     }
 
     public void stopProcess() {
-        sendData("A");
         updateTerminalText("<- Stop the process");
+        sendData("A");
     }
 
-    public void resetPosition() {
+    public void resetCoordinate() {
+        updateTerminalText("<- Reset coordinate");
         sendData("R");
-        updateTerminalText("<- Reset position");
     }
 
     public void makeToast(String message) {
@@ -192,5 +192,9 @@ public class EspComms {
 
     public void updateTerminalText(String text) {
         activity.runOnUiThread(() -> terminalFragment.updateTerminalText(text));
+    }
+
+    public String getDefaultEspIp() {
+        return "192.168.3.22"; // Default IP-address for my ESP
     }
 }

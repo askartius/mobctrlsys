@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/position_card"
+        android:id="@+id/coordinates_card"
         style="?attr/materialCardViewOutlinedStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/z_position_display"
+                android:id="@+id/z_coordinate_display"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/element_margin"
@@ -57,10 +57,10 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/element_margin"
                 android:layout_marginStart="0dp"
                 android:layout_marginEnd="@dimen/element_margin"
-                android:layout_marginVertical="@dimen/element_margin"
-                android:text="@string/millimeter"
+                android:text="@string/unit_millimeter"
                 android:textSize="@dimen/text_size_medium" />
 
         </LinearLayout>

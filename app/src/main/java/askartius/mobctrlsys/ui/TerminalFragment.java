@@ -15,17 +15,16 @@ import android.view.ViewGroup;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
+import askartius.mobctrlsys.MainActivity;
 import askartius.mobctrlsys.R;
 import askartius.mobctrlsys.api.EspComms;
 import askartius.mobctrlsys.api.EspCommsViewModel;
 
 public class TerminalFragment extends Fragment {
-    private final String ESP_IP = "192.168.3.22";
     private MaterialTextView terminalDisplay;
     private MaterialButton connectButton;
     private EspComms espComms;
     private String terminalText = "Terminal running";
-    private boolean connected = true;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -46,12 +45,13 @@ public class TerminalFragment extends Fragment {
 
         // Update displayed values if they have been changed before the view was created
         updateTerminalText("");
-        updateConnectionState(connected);
+
+        connectButton.setEnabled(false); // The app automatically starts connecting, no need for the button at first
 
         terminalDisplay.setMovementMethod(new ScrollingMovementMethod());
 
         connectButton.setOnClickListener(v -> {
-            espComms.connectToEsp(ESP_IP);
+            espComms.connectToEsp(espComms.getDefaultEspIp());
             connectButton.setEnabled(false);
         });
 
@@ -73,9 +73,13 @@ public class TerminalFragment extends Fragment {
     }
 
     private void updateConnectionState(boolean connected) {
-        this.connected = connected;
         if (connectButton != null) {
-            connectButton.setEnabled(!connected);
+            if (connected) {
+                connectButton.setText(R.string.connected_to_machine);
+            } else {
+                connectButton.setText(R.string.connect_to_machine);
+                connectButton.setEnabled(true);
+            }
         }
     }
 }

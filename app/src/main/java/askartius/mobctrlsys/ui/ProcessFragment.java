@@ -1,6 +1,5 @@
 package askartius.mobctrlsys.ui;
 
-
 import android.content.Context;
 import android.os.Bundle;
 
@@ -67,20 +66,20 @@ public class ProcessFragment extends Fragment {
             TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
-            dataInputLayout.setSuffixText("μs");
+            dataInputLayout.setSuffixText(getString(R.string.unit_microsecond));
             dataInput.setInputType(InputType.TYPE_CLASS_NUMBER);
 
             new MaterialAlertDialogBuilder(requireActivity())
                     .setTitle("Pulse time")
                     .setView(dialogView)
-                    .setPositiveButton("Set", (dialog, which) -> {
+                    .setPositiveButton(R.string.set, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
-                            Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.error_empty_value), Toast.LENGTH_SHORT).show();
                         } else {
                             espComms.sendParameters(Integer.parseInt(String.valueOf(dataInput.getText())), -1, -1);
                         }
                     })
-                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
                     })
                     .show();
         });
@@ -91,20 +90,20 @@ public class ProcessFragment extends Fragment {
             TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
-            dataInputLayout.setSuffixText("μs");
+            dataInputLayout.setSuffixText(getString(R.string.unit_microsecond));
             dataInput.setInputType(InputType.TYPE_CLASS_NUMBER);
 
             new MaterialAlertDialogBuilder(requireActivity())
                     .setTitle("Pause time")
                     .setView(dialogView)
-                    .setPositiveButton("Set", (dialog, which) -> {
+                    .setPositiveButton(R.string.set, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
-                            Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.error_empty_value), Toast.LENGTH_SHORT).show();
                         } else {
                             espComms.sendParameters(-1, Integer.parseInt(String.valueOf(dataInput.getText())), -1);
                         }
                     })
-                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
                     })
                     .show();
         });
@@ -114,20 +113,20 @@ public class ProcessFragment extends Fragment {
             TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
-            dataInputLayout.setSuffixText("V");
+            dataInputLayout.setSuffixText(getString(R.string.unit_volt));
             dataInput.setInputType(InputType.TYPE_CLASS_NUMBER);
 
             new MaterialAlertDialogBuilder(requireActivity())
                     .setTitle("Gap voltage")
                     .setView(dialogView)
-                    .setPositiveButton("Set", (dialog, which) -> {
+                    .setPositiveButton(R.string.set, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
-                            Toast.makeText(getActivity(), "Error: empty value", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.error_empty_value), Toast.LENGTH_SHORT).show();
                         } else {
                             espComms.sendParameters(-1, -1, Integer.parseInt(String.valueOf(dataInput.getText())));
                         }
                     })
-                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
                     })
                     .show();
         });
