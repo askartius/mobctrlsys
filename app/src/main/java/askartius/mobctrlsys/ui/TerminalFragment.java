@@ -63,15 +63,9 @@ public class TerminalFragment extends Fragment {
             terminalDisplay.setText(terminalText);
             terminalDisplay.scrollTo(0, terminalDisplay.getLineCount());
         }
-
-        if (text.contains("Connected to machine")) {
-            updateConnectionState(true);
-        } else if (text.contains("Error connecting")) {
-            updateConnectionState(false);
-        }
     }
 
-    private void updateConnectionState(boolean connected) {
+    public void updateConnectionState(boolean connected) {
         if (connectButton != null) {
             if (connected) {
                 connectButton.setText(R.string.connected_to_machine);

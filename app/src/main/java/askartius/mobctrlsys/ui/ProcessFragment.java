@@ -19,6 +19,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.util.Locale;
+
 import askartius.mobctrlsys.R;
 import askartius.mobctrlsys.api.EspComms;
 import askartius.mobctrlsys.api.EspCommsViewModel;
@@ -26,13 +28,14 @@ import askartius.mobctrlsys.api.EspCommsViewModel;
 public class ProcessFragment extends Fragment {
     private MaterialTextView pulseTimeDisplay;
     private MaterialTextView pauseTimeDisplay;
-    private MaterialTextView gapVoltageDisplay;
+    private MaterialTextView voltageDisplay;
     private MaterialTextView processStateDisplay;
     private EspComms espComms;
 
     private int pulseTime = 0;
     private int pauseTime = 0;
     private int gapVoltage = 0;
+    private String voltage = "?";
     private boolean processRunning = false;
 
     @Override
@@ -51,7 +54,7 @@ public class ProcessFragment extends Fragment {
 
         pulseTimeDisplay = view.findViewById(R.id.pulse_time_display);
         pauseTimeDisplay = view.findViewById(R.id.pause_time_display);
-        gapVoltageDisplay = view.findViewById(R.id.gap_voltage_display);
+        voltageDisplay = view.findViewById(R.id.voltage_display);
         processStateDisplay = view.findViewById(R.id.process_state_display);
         MaterialButton startProcessButton = view.findViewById(R.id.start_process_button);
         MaterialButton stopProcessButton = view.findViewById(R.id.stop_process_button);
@@ -70,7 +73,7 @@ public class ProcessFragment extends Fragment {
             dataInput.setInputType(InputType.TYPE_CLASS_NUMBER);
 
             new MaterialAlertDialogBuilder(requireActivity())
-                    .setTitle("Pulse time")
+                    .setTitle(R.string.pulse)
                     .setView(dialogView)
                     .setPositiveButton(R.string.set, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
@@ -94,7 +97,7 @@ public class ProcessFragment extends Fragment {
             dataInput.setInputType(InputType.TYPE_CLASS_NUMBER);
 
             new MaterialAlertDialogBuilder(requireActivity())
-                    .setTitle("Pause time")
+                    .setTitle(R.string.pause)
                     .setView(dialogView)
                     .setPositiveButton(R.string.set, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
@@ -108,7 +111,7 @@ public class ProcessFragment extends Fragment {
                     .show();
         });
 
-        gapVoltageDisplay.setOnClickListener(v -> {
+        voltageDisplay.setOnClickListener(v -> {
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_input, null);
             TextInputLayout dataInputLayout = dialogView.findViewById(R.id.data_input_layout);
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
@@ -117,7 +120,7 @@ public class ProcessFragment extends Fragment {
             dataInput.setInputType(InputType.TYPE_CLASS_NUMBER);
 
             new MaterialAlertDialogBuilder(requireActivity())
-                    .setTitle("Gap voltage")
+                    .setTitle(R.string.gap_voltage)
                     .setView(dialogView)
                     .setPositiveButton(R.string.set, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
@@ -142,10 +145,10 @@ public class ProcessFragment extends Fragment {
         this.pulseTime = pulseTime;
         this.pauseTime = pauseTime;
         this.gapVoltage = gapVoltage;
-        if (pauseTimeDisplay != null) {
-            pulseTimeDisplay.setText(String.valueOf(pulseTime).concat(" μs"));
-            pauseTimeDisplay.setText(String.valueOf(pauseTime).concat(" μs"));
-            gapVoltageDisplay.setText(String.valueOf(gapVoltage).concat(" V"));
+        if (voltageDisplay != null) {
+            pulseTimeDisplay.setText(String.format(Locale.getDefault(), "%s " + getString(R.string.unit_microsecond), pulseTime));
+            pauseTimeDisplay.setText(String.format(Locale.getDefault(), "%s " + getString(R.string.unit_microsecond), pauseTime));
+            voltageDisplay.setText(String.format(Locale.getDefault(), "%s/%s " + getString(R.string.unit_volt), voltage, gapVoltage));
         }
     }
 
@@ -159,6 +162,13 @@ public class ProcessFragment extends Fragment {
                 processStateDisplay.setText(R.string.stopped);
                 processStateDisplay.setTextColor(getResources().getColor(R.color.colorStop, null));
             }
+        }
+    }
+
+    public void updateVoltage(String voltage) {
+        this.voltage = voltage;
+        if (voltageDisplay != null) {
+            voltageDisplay.setText(String.format(Locale.getDefault(), "%s/%s " + getString(R.string.unit_volt), voltage, gapVoltage));
         }
     }
 }
