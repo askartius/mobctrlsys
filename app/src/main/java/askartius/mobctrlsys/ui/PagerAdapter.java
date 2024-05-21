@@ -1,4 +1,4 @@
-package askartius.mobctrlsys;
+package askartius.mobctrlsys.ui;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -8,17 +8,13 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import askartius.mobctrlsys.ui.HomeFragment;
-import askartius.mobctrlsys.ui.MotionFragment;
-
 public class PagerAdapter extends FragmentStateAdapter {
     private final List<Fragment> fragments = new ArrayList<>();
     public PagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
 
-        fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
+        fragments.add(new TerminalFragment());
+        fragments.add(new ProcessFragment());
         fragments.add(new MotionFragment());
     }
 
@@ -35,5 +31,9 @@ public class PagerAdapter extends FragmentStateAdapter {
     @Override
     public int getItemCount() {
         return fragments.size();
+    }
+
+    public List<Fragment> getFragments() {
+        return fragments;
     }
 }

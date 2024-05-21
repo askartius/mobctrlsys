@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home"
-        android:title="@string/title_home" />
+        android:id="@+id/terminal"
+        android:icon="@drawable/terminal"
+        android:title="@string/terminal" />
     <item
-        android:id="@+id/navigation_graphs"
-        android:icon="@drawable/ic_graph"
-        android:title="@string/title_graphs" />
+        android:id="@+id/process"
+        android:icon="@drawable/ic_process_adjustments"
+        android:title="@string/process" />
     <item
-        android:id="@+id/navigation_process"
-        android:icon="@drawable/ic_microchip"
-        android:title="@string/title_process" />
-    <item
-        android:id="@+id/navigation_motion"
-        android:icon="@drawable/ic_arrows_up_down_left_right"
-        android:title="@string/title_motion" />
+        android:id="@+id/motion"
+        android:icon="@drawable/ic_arrows_move_vertical"
+        android:title="@string/motion" />
 </menu>

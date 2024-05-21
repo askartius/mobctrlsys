@@ -4,51 +4,164 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
+    android:padding="@dimen/layout_padding"
     tools:context=".ui.MotionFragment">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/center_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_motion"
-        android:layout_margin="8dp"
-        android:textSize="24sp"
+        android:layout_margin="@dimen/element_margin"
+        android:text="@string/motion"
+        android:textSize="@dimen/text_size_medium"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/coordinates_card"
+        style="?attr/materialCardViewOutlinedStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:drawableTop="@drawable/ic_arrows_up_down_left_right"
-        android:drawableTint="@color/design_default_color_on_primary"
-        android:padding="16dp"
-        android:text="@string/down"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/move_up_button"
+        android:layout_margin="@dimen/element_margin"
+        app:cardCornerRadius="@dimen/corner_radius"
+        app:layout_constraintBottom_toTopOf="@id/speed_multiplier_selector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/layout_padding">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/element_margin"
+                android:text="@string/z"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/z_coordinate_display"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/element_margin"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/unknown"
+                android:textSize="@dimen/text_size_large" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/element_margin"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="@dimen/element_margin"
+                android:text="@string/unit_millimeter"
+                android:textSize="@dimen/text_size_medium" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/speed_multiplier_selector"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/element_margin"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/jog_to_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/speed_x1"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/button_padding"
+            android:text="@string/x1"
+            android:textSize="@dimen/text_size_small" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/speed_x5"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/button_padding"
+            android:text="@string/x5"
+            android:textSize="@dimen/text_size_small" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/speed_x25"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/button_padding"
+            android:text="@string/x25"
+            android:textSize="@dimen/text_size_small" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/jog_to_button"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/element_margin"
+        android:padding="@dimen/button_padding"
+        android:text="@string/jog_to"
+        android:textSize="@dimen/text_size_small"
+        app:layout_constraintBottom_toTopOf="@id/increase_z_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/move_up_button"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/increase_z_button"
+        style="@style/Widget.Material3.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:drawableTop="@drawable/ic_arrows_up_down_left_right"
-        android:drawableTint="@color/design_default_color_on_primary"
-        android:padding="16dp"
-        android:text="@string/up"
-        android:textSize="16sp"
+        android:layout_margin="@dimen/element_margin"
+        android:padding="@dimen/button_padding"
+        android:text="@string/increase_z"
+        android:textSize="@dimen/text_size_medium"
+        app:cornerRadius="@dimen/corner_radius"
+        app:layout_constraintBottom_toTopOf="@id/jog_home_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/jog_home_button"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/element_margin"
+        android:padding="@dimen/button_padding"
+        android:text="@string/jog_home"
+        android:textSize="@dimen/text_size_medium"
+        app:cornerRadius="@dimen/corner_radius"
+        app:layout_constraintBottom_toTopOf="@id/decrease_z_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/decrease_z_button"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/element_margin"
+        android:padding="@dimen/button_padding"
+        android:text="@string/decrease_z"
+        android:textSize="@dimen/text_size_medium"
+        app:cornerRadius="@dimen/corner_radius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
