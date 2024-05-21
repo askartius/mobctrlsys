@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
-import askartius.mobctrlsys.MainActivity;
 import askartius.mobctrlsys.R;
 import askartius.mobctrlsys.api.EspComms;
 import askartius.mobctrlsys.api.EspCommsViewModel;
