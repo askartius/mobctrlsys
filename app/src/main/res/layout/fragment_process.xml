@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/element_margin"
-                    android:text="@string/pulse_time"
+                    android:text="@string/pulse"
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/element_margin"
-                    android:text="@string/pause_time"
+                    android:text="@string/pause"
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
@@ -98,12 +98,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/element_margin"
-                    android:text="@string/gap_voltage"
+                    android:text="@string/voltage"
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/gap_voltage_display"
+                    android:id="@+id/voltage_display"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/element_margin"
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/element_margin"
-                android:text="@string/process_state"
+                android:text="@string/state"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
@@ -176,7 +176,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/element_margin"
         android:backgroundTint="@color/colorStop"
-        android:padding="@dimen/button_padding_large"
+        android:paddingHorizontal="@dimen/button_padding"
+        android:paddingVertical="@dimen/button_padding_large"
         android:text="@string/stop_the_process"
         android:textSize="@dimen/text_size_medium"
         app:cornerRadius="@dimen/corner_radius"

@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.util.List;
 
 import askartius.mobctrlsys.MainActivity;
+import askartius.mobctrlsys.R;
 import askartius.mobctrlsys.ui.MotionFragment;
 import askartius.mobctrlsys.ui.ProcessFragment;
 import askartius.mobctrlsys.ui.TerminalFragment;
@@ -72,8 +73,10 @@ public class EspComms {
                 while ((data = bufferedReader.readLine()) != null && data.charAt(0) == '*') {
                     switch (data.charAt(1)) {
                         case '*': // Messages
-                            makeToast(data.substring(3));
                             updateTerminalText("-> " + data.substring(3));
+                            if (data.contains("Connected")) {
+                                activity.runOnUiThread(() -> terminalFragment.updateConnectionState(true));
+                            }
                             break;
 
                         case 'A': // Process stopped
@@ -109,10 +112,16 @@ public class EspComms {
                             activity.runOnUiThread(() -> motionFragment.updateCoordinates(0.0F));
                             updateTerminalText("-> Coordinate reset");
                             break;
+
+                        case 'V':
+                            String voltage = data.substring(3);
+                            activity.runOnUiThread(() -> processFragment.updateVoltage(voltage));
+                            break;
                     }
                 }
             } catch (IOException e) {
-                makeToast("Error connecting");
+                activity.runOnUiThread(() -> terminalFragment.updateConnectionState(false));
+                makeToast(activity.getString(R.string.error_connecting));
                 updateTerminalText("-> Error connecting: " + e.getMessage());
                 disconnectFromEsp();
             }
@@ -137,16 +146,18 @@ public class EspComms {
 
     public void sendData(String data) {
         if (printWriter == null) {
-            makeToast("Error sending");
+            makeToast(activity.getString(R.string.error_sending));
             updateTerminalText("-> Error sending: no connection");
         } else if (processRunning && data.charAt(0) != 'A') {
-            makeToast("Error sending");
+            makeToast(activity.getString(R.string.error_sending));
             updateTerminalText("-> Error sending: process is running");
         } else {
             new Thread(() -> {
+                Log.d("TEST", "+");
                 printWriter.print('*');
                 printWriter.print(data);
                 printWriter.print('\n');
+                Log.d("TEST", "+");
                 printWriter.flush();
             }).start();
         }
