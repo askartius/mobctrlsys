@@ -30,4 +30,10 @@
     <string name="error_connecting">Ошибка подключения</string>
     <string name="voltage">Напряжение</string>
     <string name="dont_ask_again">Больше не спрашивать</string>
+    <string name="battery_optimization_warning">Отключите оптимизацию батареи для обеспечения стабильного соединения со станком</string>
+    <string name="warning">Предупреждение</string>
+    <string name="responsibility_warning">ВЫ НЕСЁТЕ ИСКЛЮЧИТЕЛЬНУЮ ОТВЕТСТВЕННОСТЬ ЗА ЛЮБОЙ УЩЕРБ, НАНЕСЁННЫЙ В РЕЗУЛЬТАТЕ НЕПРАВИЛЬНОГО ИСПОЛЬЗОВАНИЯ ЭТОГО ПРОДУКТА</string>
+    <string name="battery_optimization">Оптимизация батареи</string>
+    <string name="i_understand">Я понимаю</string>
+    <string name="turn_off">Отключить</string>
 </resources>

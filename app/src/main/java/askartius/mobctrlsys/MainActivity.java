@@ -32,14 +32,16 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Prompt user to disable battery optimisations
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+
         SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+
+        // Prompt user to disable battery optimisation
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         if (!powerManager.isIgnoringBatteryOptimizations(getPackageName()) && sharedPreferences.getBoolean("battery optimization warning", true)) {
             new MaterialAlertDialogBuilder(this)
-                    .setTitle("Warning")
-                    .setMessage("To ensure stable connection with the machine, battery optimization should be turned off")
-                    .setPositiveButton(R.string.set, (dialog, which) -> {
+                    .setTitle(R.string.battery_optimization)
+                    .setMessage(R.string.battery_optimization_warning)
+                    .setPositiveButton(R.string.turn_off, (dialog, which) -> {
                         Intent intent = new Intent();
                         intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
                         intent.setData(Uri.parse("package:" + getPackageName()));
@@ -48,6 +50,16 @@ public class MainActivity extends AppCompatActivity {
                     .setNegativeButton(R.string.cancel, (dialog, which) -> {
                     })
                     .setNeutralButton(R.string.dont_ask_again, (dialog, which) -> sharedPreferences.edit().putBoolean("battery optimization warning", false).apply())
+                    .show();
+        }
+
+        // Warn user about his responsibilities
+        if (sharedPreferences.getBoolean("responsibility warning", true)) {
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.warning)
+                    .setIcon(R.drawable.ic_alert_triangle)
+                    .setMessage(R.string.responsibility_warning)
+                    .setPositiveButton(R.string.i_understand, (dialog, which) -> sharedPreferences.edit().putBoolean("responsibility warning", false).apply())
                     .show();
         }
 

@@ -46,4 +46,10 @@
     <string name="error_sending">Error sending</string>
     <string name="error_connecting">Error connecting</string>
     <string name="dont_ask_again">Don\'t ask again</string>
+    <string name="battery_optimization_warning">Turn off battery optimization to ensure stable connection with the machine</string>
+    <string name="warning">Warning</string>
+    <string name="responsibility_warning">YOU ARE SOLELY RESPONSIBLE FOR ANY DAMAGE RESULTING FROM INCORRECT USAGE OF THIS PRODUCT</string>
+    <string name="battery_optimization">Battery optimization</string>
+    <string name="i_understand">I understand</string>
+    <string name="turn_off">Turn off</string>
 </resources>
