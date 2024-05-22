@@ -165,14 +165,14 @@ public class EspComms {
 
     public void sendParameters(int pulseTime, int pauseTime, int gapVoltage) {
         updateTerminalText("<- Set parameters:");
-        if (pulseTime != -1) {
+        if (pulseTime > 0) {
             updateTerminalText("    - Pulse time: " + pulseTime + " μs");
-        }
-        if (pauseTime != -1) {
+        } else if (pauseTime > 0) {
             updateTerminalText("    - Pause time: " + pauseTime + " μs");
-        }
-        if (gapVoltage != -1) {
+        } else if (gapVoltage > 0) {
             updateTerminalText("    - Gap voltage: " + gapVoltage + " V");
+        } else {
+            updateTerminalText("    - None");
         }
         sendData("P " + pulseTime + ' ' + pauseTime + ' ' + gapVoltage);
     }
