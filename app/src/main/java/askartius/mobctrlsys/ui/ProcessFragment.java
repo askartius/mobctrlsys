@@ -77,9 +77,15 @@ public class ProcessFragment extends Fragment {
                     .setView(dialogView)
                     .setPositiveButton(R.string.set, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
-                            Toast.makeText(getActivity(), getString(R.string.error_empty_value), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.error_wrong_value), Toast.LENGTH_SHORT).show();
                         } else {
-                            espComms.sendParameters(Integer.parseInt(String.valueOf(dataInput.getText())), -1, -1);
+                            int value = Integer.parseInt(String.valueOf(dataInput.getText()));
+                            // Check if the value is too small or too big
+                            if (value > 0 && value <= 1000000) {
+                                espComms.sendParameters(value, 0, 0);
+                            } else {
+                                Toast.makeText(getActivity(), getString(R.string.error_wrong_value), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     })
                     .setNegativeButton(R.string.cancel, (dialog, which) -> {
@@ -101,9 +107,15 @@ public class ProcessFragment extends Fragment {
                     .setView(dialogView)
                     .setPositiveButton(R.string.set, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
-                            Toast.makeText(getActivity(), getString(R.string.error_empty_value), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.error_wrong_value), Toast.LENGTH_SHORT).show();
                         } else {
-                            espComms.sendParameters(-1, Integer.parseInt(String.valueOf(dataInput.getText())), -1);
+                            int value = Integer.parseInt(String.valueOf(dataInput.getText()));
+                            // Check if the value is too small or too big
+                            if (value > 0 && value <= 1000000) {
+                                espComms.sendParameters(0, value, 0);
+                            } else {
+                                Toast.makeText(getActivity(), getString(R.string.error_wrong_value), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     })
                     .setNegativeButton(R.string.cancel, (dialog, which) -> {
@@ -124,9 +136,15 @@ public class ProcessFragment extends Fragment {
                     .setView(dialogView)
                     .setPositiveButton(R.string.set, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
-                            Toast.makeText(getActivity(), getString(R.string.error_empty_value), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.error_wrong_value), Toast.LENGTH_SHORT).show();
                         } else {
-                            espComms.sendParameters(-1, -1, Integer.parseInt(String.valueOf(dataInput.getText())));
+                            int value = Integer.parseInt(String.valueOf(dataInput.getText()));
+                            // Check if the value is too small or too big
+                            if (value > 0 && value <= 1000) {
+                                espComms.sendParameters(0, 0, value);
+                            } else {
+                                Toast.makeText(getActivity(), getString(R.string.error_wrong_value), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     })
                     .setNegativeButton(R.string.cancel, (dialog, which) -> {

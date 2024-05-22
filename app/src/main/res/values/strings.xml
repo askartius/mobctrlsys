@@ -42,7 +42,8 @@
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="set">Set</string>
-    <string name="error_empty_value">Error: empty value</string>
+    <string name="error_wrong_value">Error: wrong value</string>
     <string name="error_sending">Error sending</string>
     <string name="error_connecting">Error connecting</string>
+    <string name="dont_ask_again">Don\'t ask again</string>
 </resources>

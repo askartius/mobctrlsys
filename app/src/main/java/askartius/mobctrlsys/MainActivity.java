@@ -1,13 +1,20 @@
 package askartius.mobctrlsys;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.provider.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import askartius.mobctrlsys.api.EspComms;
 import askartius.mobctrlsys.api.EspCommsViewModel;
@@ -28,14 +35,24 @@ public class MainActivity extends AppCompatActivity {
 
         // Prompt user to disable battery optimisations
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        if (!powerManager.isIgnoringBatteryOptimizations(getPackageName())) {
-            Intent intent = new Intent();
-            intent.setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-            intent.setData(android.net.Uri.parse("package:" + getPackageName()));
-            startActivity(intent);
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        if (!powerManager.isIgnoringBatteryOptimizations(getPackageName()) && sharedPreferences.getBoolean("battery optimization warning", true)) {
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle("Warning")
+                    .setMessage("To ensure stable connection with the machine, battery optimization should be turned off")
+                    .setPositiveButton(R.string.set, (dialog, which) -> {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                        intent.setData(Uri.parse("package:" + getPackageName()));
+                        startActivity(intent);
+                    })
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {})
+                    .setNeutralButton(R.string.dont_ask_again, (dialog, which) -> sharedPreferences.edit().putBoolean("battery optimization warning", false).apply())
+                    .show();
         }
 
         espComms = new EspComms(this);
+        getPreferences(Context.MODE_PRIVATE).edit().putInt("Test", 0).apply();
 
         // Save espComms into ViewModel to access it from fragments
         EspCommsViewModel viewModel = new ViewModelProvider(this).get(EspCommsViewModel.class);

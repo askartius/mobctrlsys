@@ -107,7 +107,7 @@ public class MotionFragment extends Fragment {
                     .setView(dialogView)
                     .setPositiveButton(R.string.jog, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
-                            Toast.makeText(getActivity(), getString(R.string.error_empty_value), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.error_wrong_value), Toast.LENGTH_SHORT).show();
                         } else {
                             espComms.sendTargetCoordinates(Float.parseFloat(String.valueOf(dataInput.getText())), speedMultiplier); // Parsing to float to remove unnecessary characters
                         }
@@ -131,7 +131,7 @@ public class MotionFragment extends Fragment {
                     .setView(dialogView)
                     .setPositiveButton(R.string.jog, (dialog, which) -> {
                         if (String.valueOf(dataInput.getText()).isEmpty()) {
-                            Toast.makeText(getActivity(), getString(R.string.error_empty_value), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.error_wrong_value), Toast.LENGTH_SHORT).show();
                         } else {
                             espComms.sendTargetCoordinates(Float.parseFloat(String.valueOf(dataInput.getText())), speedMultiplier); // Parsing to float to remove unnecessary characters
                         }
