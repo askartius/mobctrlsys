@@ -2,7 +2,6 @@ package askartius.mobctrlsys;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -46,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
                         intent.setData(Uri.parse("package:" + getPackageName()));
                         startActivity(intent);
                     })
-                    .setNegativeButton(R.string.cancel, (dialog, which) -> {})
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                    })
                     .setNeutralButton(R.string.dont_ask_again, (dialog, which) -> sharedPreferences.edit().putBoolean("battery optimization warning", false).apply())
                     .show();
         }
