@@ -42,6 +42,7 @@
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="set">Set</string>
+    <string name="connect">Connect</string>
     <string name="error_wrong_value">Error: wrong value</string>
     <string name="error_sending">Error sending</string>
     <string name="error_connecting">Error connecting</string>
@@ -52,4 +53,5 @@
     <string name="battery_optimization">Battery optimization</string>
     <string name="i_understand">I understand</string>
     <string name="turn_off">Turn off</string>
+    <string name="ip_address">IP address</string>
 </resources>

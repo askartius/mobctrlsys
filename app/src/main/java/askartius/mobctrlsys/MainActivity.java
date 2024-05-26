@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         espComms = new EspComms(this);
-        getPreferences(Context.MODE_PRIVATE).edit().putInt("Test", 0).apply();
 
         // Save espComms into ViewModel to access it from fragments
         EspCommsViewModel viewModel = new ViewModelProvider(this).get(EspCommsViewModel.class);
@@ -90,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         binding.pager.setUserInputEnabled(false);
-
-        espComms.connectToEsp(espComms.getDefaultEspIp());
     }
 
     @Override

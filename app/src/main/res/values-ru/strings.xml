@@ -36,4 +36,6 @@
     <string name="battery_optimization">Оптимизация батареи</string>
     <string name="i_understand">Я понимаю</string>
     <string name="turn_off">Отключить</string>
+    <string name="ip_address">IP-адрес</string>
+    <string name="connect">Подключиться</string>
 </resources>
