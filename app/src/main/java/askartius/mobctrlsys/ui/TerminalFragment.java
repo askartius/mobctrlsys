@@ -1,6 +1,7 @@
 package askartius.mobctrlsys.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.InetAddresses;
 import android.os.Bundle;
 
@@ -44,6 +45,8 @@ public class TerminalFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_terminal, container, false);
 
+        SharedPreferences sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
+
         terminalDisplay = view.findViewById(R.id.terminal_display);
         connectButton = view.findViewById(R.id.connect_button);
 
@@ -57,6 +60,7 @@ public class TerminalFragment extends Fragment {
             TextInputEditText dataInput = dialogView.findViewById(R.id.data_input);
 
             dataInput.setInputType(InputType.TYPE_CLASS_TEXT);
+            dataInput.setText(sharedPreferences.getString("ip address", ""));
 
             new MaterialAlertDialogBuilder(requireActivity())
                     .setTitle(R.string.ip_address)
@@ -67,6 +71,7 @@ public class TerminalFragment extends Fragment {
                             Toast.makeText(getActivity(), getString(R.string.error_wrong_value), Toast.LENGTH_SHORT).show();
                         } else {
                             espComms.connectToEsp(value);
+                            sharedPreferences.edit().putString("ip address", value).apply();
                             connectButton.setEnabled(false);
                         }
                     })

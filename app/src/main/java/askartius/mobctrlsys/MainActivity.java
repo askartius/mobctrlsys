@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
 
         // Prompt user to disable battery optimisation
