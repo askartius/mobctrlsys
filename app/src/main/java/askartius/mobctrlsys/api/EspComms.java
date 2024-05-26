@@ -46,8 +46,6 @@ public class EspComms {
     private BufferedReader bufferedReader;
 
     private TerminalFragment terminalFragment;
-    private ProcessFragment processFragment;
-    private MotionFragment motionFragment;
     private boolean processRunning;
 
     public EspComms(MainActivity activity) {
@@ -57,9 +55,8 @@ public class EspComms {
     public void connectToEsp(String EspIp) {
         // Get fragments to update their data
         List<Fragment> fragments = activity.getPagerAdapter().getFragments();
-        terminalFragment = (TerminalFragment) fragments.get(0);
-        processFragment = (ProcessFragment) fragments.get(1);
-        motionFragment = (MotionFragment) fragments.get(2);
+        ProcessFragment processFragment = (ProcessFragment) fragments.get(1);
+        MotionFragment motionFragment = (MotionFragment) fragments.get(2);
 
         new Thread(() -> {
             try {
@@ -201,5 +198,9 @@ public class EspComms {
 
     public void updateTerminalText(String text) {
         activity.runOnUiThread(() -> terminalFragment.updateTerminalText(text));
+    }
+
+    public void setTerminalFragment(TerminalFragment terminalFragment) {
+        this.terminalFragment = terminalFragment;
     }
 }

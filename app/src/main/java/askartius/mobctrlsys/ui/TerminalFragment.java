@@ -45,6 +45,8 @@ public class TerminalFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_terminal, container, false);
 
+        espComms.setTerminalFragment(this); // Define terminal fragment in espComms, so that messages can be displayed even when connection hasn't been initiated
+
         SharedPreferences sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
 
         terminalDisplay = view.findViewById(R.id.terminal_display);
