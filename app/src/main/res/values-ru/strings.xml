@@ -30,4 +30,6 @@
     <string name="error_connecting">Ошибка подключения</string>
     <string name="voltage">Напряжение</string>
     <string name="dont_ask_again">Больше не спрашивать</string>
+    <string name="ip_address">IP-адрес</string>
+    <string name="connect">Подключиться</string>
 </resources>

@@ -1,6 +1,7 @@
 package askartius.mobctrlsys.api;
 
 import android.util.Log;
+
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -153,11 +154,9 @@ public class EspComms {
             updateTerminalText("-> Error sending: process is running");
         } else {
             new Thread(() -> {
-                Log.d("TEST", "+");
                 printWriter.print('*');
                 printWriter.print(data);
                 printWriter.print('\n');
-                Log.d("TEST", "+");
                 printWriter.flush();
             }).start();
         }
@@ -203,9 +202,5 @@ public class EspComms {
 
     public void updateTerminalText(String text) {
         activity.runOnUiThread(() -> terminalFragment.updateTerminalText(text));
-    }
-
-    public String getDefaultEspIp() {
-        return "192.168.3.22"; // Default IP-address for my ESP
     }
 }
