@@ -67,7 +67,7 @@ public class EspComms {
 
                 // Monitor the connection to receive data from ESP
                 String data;
-                while ((data = bufferedReader.readLine()) != null && data.charAt(0) == '*') {
+                while ((data = bufferedReader.readLine()) != null && !data.isEmpty() && data.charAt(0) == '*') {
                     switch (data.charAt(1)) {
                         case '*': // Messages
                             updateTerminalText("-> " + data.substring(3));
