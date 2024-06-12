@@ -1,6 +1,6 @@
 # MobCtrlSys
 
-A **mobile control system** for machines for electrical metal processing methods (EDM, ECM, etc.)
+A **mobile control system** for machines for electrical metal processing methods
 
 ## Overview
 
